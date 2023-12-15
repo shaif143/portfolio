@@ -1,9 +1,0 @@
-Caiqi Hu, Yuxia Duan, Shicai Liu, Yiqian Yan, Ning Tao, Ahmad Osman, Clemente Ibarra-Castanedo, Stefano Sfarra, Dapeng Chen, Cunlin Zhang,
-LSTM-RNN-based defect classification in honeycomb structures using infrared thermography,
-Infrared Physics & Technology,
-Volume 102,
-2019,
-103032,
-ISSN 1350-4495,
-https://doi.org/10.1016/j.infrared.2019.103032.
-
