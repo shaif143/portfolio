@@ -3,7 +3,15 @@
 import { upload } from "@vercel/blob/client";
 import { FormEvent, useState } from "react";
 
-export function StudioUploader() {
+type StudioUploaderProps = {
+  galleryOnly?: boolean;
+  onPublished?: () => void;
+};
+
+export function StudioUploader({
+  galleryOnly = false,
+  onPublished,
+}: StudioUploaderProps = {}) {
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [artifactKind, setArtifactKind] = useState<"photo" | "cv">("photo");
@@ -14,95 +22,117 @@ export function StudioUploader() {
     setStatus("Transmitting to the archive…");
     const form = event.currentTarget;
     const data = new FormData(form);
+    let publishedCount = 0;
 
     try {
-      const file = data.get("file");
-      const kind = data.get("kind");
+      const files = data
+        .getAll("file")
+        .filter((value): value is File => value instanceof File && value.size > 0);
+      const kind = galleryOnly ? "photo" : data.get("kind");
       const title = String(data.get("title") || "").trim();
       const studioKey = String(data.get("studioKey") || "");
       const photoFormat = data.get("photoFormat") === "png" ? "png" : "jpg";
 
-      if (!(file instanceof File) || (kind !== "photo" && kind !== "cv")) {
+      if (files.length === 0 || (kind !== "photo" && kind !== "cv")) {
         throw new Error("Choose a valid file and artifact type.");
       }
 
-      let uploadFile = file;
-      let convertedFromHeic = false;
+      if (kind === "cv" && files.length !== 1) {
+        throw new Error("Choose one PDF when replacing the living CV.");
+      }
 
-      if (kind === "photo" && looksLikeHeic(file)) {
-        setStatus(
-          photoFormat === "png"
-            ? "Converting HEIC to lossless PNG on your device…"
-            : "Converting HEIC to high-quality JPG on your device…",
-        );
+      let convertedCount = 0;
+      for (const [index, file] of files.entries()) {
+        const position = `${index + 1} of ${files.length}`;
+        let uploadFile = file;
 
-        const { heicTo, isHeic } = await import("heic-to");
-        if (!(await isHeic(file))) {
-          throw new Error("This file has a HEIC extension but is not a valid HEIC image.");
+        if (kind === "photo" && looksLikeHeic(file)) {
+          setStatus(
+            `Converting ${position} from HEIC to ${
+              photoFormat === "png" ? "lossless PNG" : "high-quality JPG"
+            } on your device…`,
+          );
+
+          const { heicTo, isHeic } = await import("heic-to");
+          if (!(await isHeic(file))) {
+            throw new Error(`${file.name} is not a valid HEIC image.`);
+          }
+
+          const converted =
+            photoFormat === "png"
+              ? await heicTo({ blob: file, type: "image/png" })
+              : await heicTo({
+                  blob: file,
+                  type: "image/jpeg",
+                  quality: 0.96,
+                });
+          const outputType = photoFormat === "png" ? "image/png" : "image/jpeg";
+          uploadFile = new File(
+            [converted],
+            replaceExtension(file.name, photoFormat === "png" ? ".png" : ".jpg"),
+            { type: outputType, lastModified: file.lastModified },
+          );
+          convertedCount += 1;
         }
 
-        const converted =
-          photoFormat === "png"
-            ? await heicTo({ blob: file, type: "image/png" })
-            : await heicTo({
-                blob: file,
-                type: "image/jpeg",
-                quality: 0.96,
-              });
-        const outputType = photoFormat === "png" ? "image/png" : "image/jpeg";
-        uploadFile = new File(
-          [converted],
-          replaceExtension(file.name, photoFormat === "png" ? ".png" : ".jpg"),
-          { type: outputType, lastModified: file.lastModified },
-        );
-        convertedFromHeic = true;
+        if (
+          kind === "photo" &&
+          !["image/jpeg", "image/png", "image/webp"].includes(uploadFile.type)
+        ) {
+          throw new Error(`${file.name} is not a supported photograph.`);
+        }
+
+        if (kind === "photo" && uploadFile.size > 50_000_000) {
+          throw new Error(
+            `${file.name} is larger than 50 MB after conversion. Choose high-quality JPG.`,
+          );
+        }
+
+        const itemTitle =
+          files.length > 1 && title
+            ? `${title} ${String(index + 1).padStart(2, "0")}`
+            : title;
+        const pathname =
+          kind === "cv"
+            ? "resume/shaif-ahamed-tamim.pdf"
+            : `gallery/${Date.now()}-${crypto.randomUUID()}-${safeFilename(
+                itemTitle || uploadFile.name,
+                uploadFile.name,
+              )}`;
+
+        setStatus(`Publishing ${position} to the private archive…`);
+        await upload(pathname, uploadFile, {
+          access: "public",
+          handleUploadUrl: "/api/portfolio/upload",
+          headers: { "x-studio-key": studioKey },
+          clientPayload: JSON.stringify({ kind, title: itemTitle }),
+          contentType: uploadFile.type,
+          multipart: uploadFile.size > 5_000_000,
+        });
+        publishedCount += 1;
       }
 
-      if (
-        kind === "photo" &&
-        !["image/jpeg", "image/png", "image/webp"].includes(uploadFile.type)
-      ) {
-        throw new Error("Use a JPG, PNG, WebP, HEIC, or HEIF photograph.");
-      }
-
-      if (kind === "photo" && uploadFile.size > 50_000_000) {
-        throw new Error(
-          "The converted image is larger than 50 MB. Choose high-quality JPG for a smaller file.",
-        );
-      }
-
-      const pathname =
-        kind === "cv"
-          ? "resume/shaif-ahamed-tamim.pdf"
-          : `gallery/${Date.now()}-${crypto.randomUUID()}-${safeFilename(
-              title || uploadFile.name,
-              uploadFile.name,
-            )}`;
-
+      const conversionNote =
+        convertedCount > 0
+          ? ` ${convertedCount} HEIC ${
+              convertedCount === 1 ? "original" : "originals"
+            } never left your device.`
+          : "";
       setStatus(
-        convertedFromHeic
-          ? "Conversion complete. Publishing the converted image…"
-          : "Transmitting to the archive…",
-      );
-
-      await upload(pathname, uploadFile, {
-        access: "public",
-        handleUploadUrl: "/api/portfolio/upload",
-        headers: { "x-studio-key": studioKey },
-        clientPayload: JSON.stringify({ kind, title }),
-        contentType: uploadFile.type,
-        multipart: uploadFile.size > 5_000_000,
-      });
-
-      setStatus(
-        convertedFromHeic
-          ? `Published as ${photoFormat.toUpperCase()}. The original HEIC never left your device.`
-          : "Published. The portfolio has been updated.",
+        `${publishedCount} ${
+          publishedCount === 1 ? "artwork" : "artworks"
+        } published.${conversionNote}`,
       );
       form.reset();
       setArtifactKind("photo");
+      onPublished?.();
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : "Upload failed");
+      const message = error instanceof Error ? error.message : "Upload failed";
+      setStatus(
+        publishedCount > 0
+          ? `${publishedCount} published before the interruption. ${message}`
+          : message,
+      );
     } finally {
       setBusy(false);
     }
@@ -120,19 +150,21 @@ export function StudioUploader() {
           placeholder="Enter your owner key"
         />
       </label>
-      <label>
-        Artifact type
-        <select
-          name="kind"
-          value={artifactKind}
-          onChange={(event) =>
-            setArtifactKind(event.target.value === "cv" ? "cv" : "photo")
-          }
-        >
-          <option value="photo">Nocturne photograph</option>
-          <option value="cv">Living CV</option>
-        </select>
-      </label>
+      {!galleryOnly && (
+        <label>
+          Artifact type
+          <select
+            name="kind"
+            value={artifactKind}
+            onChange={(event) =>
+              setArtifactKind(event.target.value === "cv" ? "cv" : "photo")
+            }
+          >
+            <option value="photo">Nocturne photograph</option>
+            <option value="cv">Living CV</option>
+          </select>
+        </label>
+      )}
       {artifactKind === "photo" && (
         <label>
           HEIC conversion output
@@ -147,15 +179,24 @@ export function StudioUploader() {
         </label>
       )}
       <label>
-        Gallery title
-        <input name="title" maxLength={80} placeholder="e.g. Rain over Dhanmondi" />
+        {galleryOnly ? "Collection title · optional" : "Gallery title"}
+        <input
+          name="title"
+          maxLength={80}
+          placeholder={
+            galleryOnly
+              ? "e.g. Dhaka after rain"
+              : "e.g. Rain over Dhanmondi"
+          }
+        />
       </label>
       <label>
-        Select file
+        {galleryOnly ? "Select photographs" : "Select file"}
         <input
           name="file"
           type="file"
           required
+          multiple={galleryOnly}
           accept={
             artifactKind === "photo"
               ? ".heic,.heif,image/heic,image/heif,image/jpeg,image/png,image/webp"
@@ -164,10 +205,17 @@ export function StudioUploader() {
         />
       </label>
       <button className="button button-primary" type="submit" disabled={busy}>
-        {busy ? "Publishing…" : "Publish artifact"} <span>↗</span>
+        {busy
+          ? "Publishing…"
+          : galleryOnly
+            ? "Publish selected photographs"
+            : "Publish artifact"}{" "}
+        <span>↗</span>
       </button>
       <p className="studio-status" role="status">{status}</p>
-      <a className="text-link" href="/">Return to portfolio <span>↙</span></a>
+      {!galleryOnly && (
+        <a className="text-link" href="/">Return to portfolio <span>↙</span></a>
+      )}
     </form>
   );
 }

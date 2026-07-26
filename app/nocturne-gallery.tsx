@@ -15,7 +15,9 @@ export function NocturneGallery() {
   useEffect(() => {
     fetch("/api/portfolio/gallery")
       .then((response) => (response.ok ? response.json() : { items: [] }))
-      .then((data) => setItems(Array.isArray(data.items) ? data.items : []))
+      .then((data) =>
+        setItems(Array.isArray(data.items) ? data.items.slice(0, 2) : []),
+      )
       .catch(() => setItems([]));
   }, []);
 
@@ -70,10 +72,10 @@ export function NocturneGallery() {
             <em>Evidence of attention.</em>
           </p>
           <span>
-            The archive is intentionally sparse until Shaif’s first personal
-            photography drop.
+            A two-frame preview from a growing private chronology of streets,
+            weather, people, and light.
           </span>
-          <a className="text-link" href="/studio">Enter owner studio <b>↗</b></a>
+          <a className="text-link" href="/gallery">Enter the complete gallery <b>↗</b></a>
         </div>
       </div>
     </section>

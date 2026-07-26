@@ -205,7 +205,7 @@ export function PortfolioExperience() {
         <nav className={menuOpen ? "nav is-open" : "nav"} aria-label="Primary navigation">
           <a href="#work" onClick={() => setMenuOpen(false)}>Work</a>
           <a href="#research" onClick={() => setMenuOpen(false)}>Research</a>
-          <a href="#archive" onClick={() => setMenuOpen(false)}>Archive</a>
+          <a href="/gallery" onClick={() => setMenuOpen(false)}>Gallery</a>
           <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
         </nav>
       </header>
@@ -524,6 +524,7 @@ export function PortfolioExperience() {
         <div className="footer-links">
           <a href="mailto:tamim.shaifahamed@icloud.com">Email</a>
           <a href="https://github.com/shaif143" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="/gallery">Gallery</a>
           <a href="/api/portfolio/resume">CV</a>
           <a href="/studio">Owner studio</a>
           <a href="#top">Top ↑</a>
