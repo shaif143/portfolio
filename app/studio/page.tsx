@@ -9,6 +9,7 @@ export default function StudioPage() {
         <p>
           Enter your private studio key, then upload a PDF to replace the living
           CV or add an original mobile photograph to the Nocturne Archive.
+          iPhone HEIC and HEIF photos are converted privately before publishing.
         </p>
         <StudioUploader />
       </section>

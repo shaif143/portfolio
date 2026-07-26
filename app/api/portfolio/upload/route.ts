@@ -23,7 +23,7 @@ export async function POST(request: Request) {
             payload.kind === "cv"
               ? ["application/pdf"]
               : ["image/jpeg", "image/png", "image/webp"],
-          maximumSizeInBytes: payload.kind === "cv" ? 8_000_000 : 15_000_000,
+          maximumSizeInBytes: payload.kind === "cv" ? 8_000_000 : 50_000_000,
           addRandomSuffix: false,
           allowOverwrite: payload.kind === "cv",
           cacheControlMaxAge: payload.kind === "cv" ? 60 : 3600,
