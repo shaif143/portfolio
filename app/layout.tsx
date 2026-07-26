@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://shaif-portfolio.openai.site"),
+  metadataBase: new URL("https://shaif-ahamed-tamim.hyperglow1.chatgpt.site"),
   title: {
     default: "Shaif Ahamed Tamim — AI Engineer & Researcher",
     template: "%s — Shaif Ahamed Tamim",
