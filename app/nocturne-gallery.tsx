@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 type GalleryItem = {
@@ -33,7 +32,7 @@ export function NocturneGallery() {
         </p>
       </div>
 
-      <div className="gallery-stage">
+      <div className={`gallery-stage${items.length > 0 ? " has-photos" : ""}`}>
         {items.length > 0 ? (
           items.map((item, index) => (
             <figure
@@ -41,7 +40,9 @@ export function NocturneGallery() {
               data-reveal
               key={item.key}
             >
-              <Image src={item.url} alt={item.title} fill sizes="(max-width: 800px) 90vw, 34vw" />
+              {/* The browser uses the photograph's real dimensions so no edge is cropped. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={item.url} alt={item.title} loading="lazy" decoding="async" />
               <figcaption>
                 <span>N·{String(index + 1).padStart(2, "0")}</span>
                 <p>{item.title}</p>
