@@ -2293,8 +2293,9 @@ footer {
   width: auto;
   height: auto;
   max-width: 100%;
-  max-height: 100%;
+  max-height: min(52vh, 590px);
   object-fit: contain;
+  object-position: center;
   box-shadow: 0 14px 34px rgba(22,17,11,.26);
 }
 
@@ -2613,7 +2614,7 @@ footer {
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 960px) {
   .topbar {
     inset: 12px 12px auto;
     grid-template-columns: 1fr auto;
@@ -3032,6 +3033,10 @@ footer {
     padding: 12px;
   }
 
+  .museum-mat img {
+    max-height: calc(25vh - 24px);
+  }
+
   .museum-artwork figcaption {
     width: 88%;
     margin-top: 11px;
@@ -3087,6 +3092,63 @@ footer {
 
   .museum-footer a:last-child {
     justify-self: center;
+  }
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .museum-nav {
+    height: 48px;
+    inset: 8px 10px auto;
+  }
+
+  .museum-wall,
+  .museum-room-empty .museum-wall {
+    min-height: 100svh;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: 1fr;
+    gap: 5vw;
+    padding: 15vh 7vw 8vh;
+  }
+
+  .museum-artwork {
+    width: min(39vw, 430px);
+  }
+
+  .museum-mat {
+    height: 43vh;
+    min-height: 0;
+    padding: 8px;
+  }
+
+  .museum-mat img {
+    max-height: calc(43vh - 16px);
+  }
+
+  .museum-artwork figcaption {
+    width: 90%;
+    margin-top: 7px;
+    padding: 6px 9px;
+  }
+
+  .museum-artwork figcaption p {
+    font-size: 10px;
+  }
+
+  .museum-artwork figcaption small {
+    display: none;
+  }
+
+  .museum-awaiting {
+    width: min(39vw, 430px);
+    height: 54vh;
+  }
+
+  .museum-room-index {
+    top: 15vh;
+  }
+
+  .museum-floor {
+    height: 15vh;
   }
 }
 
