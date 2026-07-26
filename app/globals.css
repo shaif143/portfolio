@@ -84,6 +84,13 @@ a {
   background: rgba(6, 6, 9, 0.64);
   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(24px) saturate(130%);
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+
+.topbar-landing {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-18px);
 }
 
 .monogram {
@@ -155,6 +162,62 @@ a {
   display: none;
   border: 0;
   background: transparent;
+}
+
+.hero-artwork {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 2.4vh, 30px);
+  padding: clamp(12px, 2vw, 28px);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 40%, rgba(124, 60, 255, 0.12), transparent 36rem),
+    #020204;
+}
+
+.hero-artwork-frame {
+  position: relative;
+  width: min(96vw, 183vh, 1734px);
+  aspect-ratio: 1734 / 907;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: clamp(20px, 2.7vw, 48px);
+  background: #020204;
+  box-shadow:
+    0 45px 140px rgba(0, 0, 0, 0.62),
+    0 0 90px rgba(124, 60, 255, 0.08);
+}
+
+.hero-artwork-frame img {
+  object-fit: cover;
+}
+
+.artwork-scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: #8e8999;
+  font: 650 9px/1 var(--body);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  transition: color 240ms ease;
+}
+
+.artwork-scroll span {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(200, 255, 77, 0.34);
+  border-radius: 50%;
+  color: var(--lime);
+}
+
+.artwork-scroll:hover {
+  color: var(--paper);
 }
 
 .hero {
@@ -1890,6 +1953,17 @@ footer {
 
   .nav.is-open {
     display: flex;
+  }
+
+  .hero-artwork {
+    min-height: 100svh;
+    justify-content: center;
+    padding: 12px;
+  }
+
+  .hero-artwork-frame {
+    width: 96vw;
+    border-radius: 18px;
   }
 
   .hero {

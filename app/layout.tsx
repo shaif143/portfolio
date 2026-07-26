@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     "LangGraph",
     "Dhaka",
   ],
+  authors: [{ name: "Shaif Ahamed Tamim", url: "https://github.com/shaif143" }],
   openGraph: {
     title: "Shaif Ahamed Tamim — AI Engineer • Researcher • Builder",
     description:

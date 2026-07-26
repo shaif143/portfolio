@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NocturneGallery } from "./nocturne-gallery";
 
 const publications = [
@@ -138,82 +138,6 @@ function useReveal() {
   }, []);
 }
 
-function QuantumField() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const context = canvas.getContext("2d");
-    if (!context) return;
-    let frame = 0;
-    let animation = 0;
-    let width = 0;
-    let height = 0;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const points = Array.from({ length: 86 }, (_, index) => ({
-      phase: index * 0.47,
-      radius: 0.22 + ((index * 17) % 73) / 100,
-      speed: 0.0015 + ((index * 11) % 9) * 0.00018,
-      y: ((index * 29) % 100) / 100 - 0.5,
-      size: 0.5 + ((index * 7) % 15) / 10,
-    }));
-
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      const ratio = Math.min(window.devicePixelRatio || 1, 2);
-      width = rect.width;
-      height = rect.height;
-      canvas.width = width * ratio;
-      canvas.height = height * ratio;
-      context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    };
-
-    const draw = () => {
-      frame += reduced ? 0 : 1;
-      context.clearRect(0, 0, width, height);
-      const cx = width * 0.72;
-      const cy = height * 0.46;
-      const base = Math.min(width, height) * 0.43;
-
-      const glow = context.createRadialGradient(cx, cy, 0, cx, cy, base * 1.15);
-      glow.addColorStop(0, "rgba(124,60,255,.18)");
-      glow.addColorStop(0.42, "rgba(86,230,255,.07)");
-      glow.addColorStop(1, "rgba(0,0,0,0)");
-      context.fillStyle = glow;
-      context.fillRect(0, 0, width, height);
-
-      points.forEach((point, index) => {
-        const angle = point.phase + frame * point.speed;
-        const depth = (Math.sin(angle) + 1) / 2;
-        const x = cx + Math.cos(angle) * base * point.radius;
-        const y = cy + point.y * base * 1.35 + Math.sin(angle * 1.7) * 18;
-        const alpha = 0.12 + depth * 0.78;
-        context.beginPath();
-        context.fillStyle =
-          index % 11 === 0
-            ? `rgba(200,255,77,${alpha})`
-            : index % 3 === 0
-              ? `rgba(86,230,255,${alpha})`
-              : `rgba(155,112,255,${alpha})`;
-        context.arc(x, y, point.size * (0.45 + depth), 0, Math.PI * 2);
-        context.fill();
-      });
-      animation = requestAnimationFrame(draw);
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-    draw();
-    return () => {
-      cancelAnimationFrame(animation);
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="quantum-field" aria-hidden="true" />;
-}
-
 function SectionIntro({
   index,
   eyebrow,
@@ -258,7 +182,7 @@ export function PortfolioExperience() {
       <div className="noise" aria-hidden="true" />
       <div className="scroll-progress" style={{ transform: `scaleX(${progress})` }} />
 
-      <header className="topbar">
+      <header className={progress < 0.008 ? "topbar topbar-landing" : "topbar"}>
         <a className="monogram" href="#top" aria-label="Back to top">
           <span>S</span>
           <i />
@@ -286,71 +210,19 @@ export function PortfolioExperience() {
         </nav>
       </header>
 
-      <section className="hero" id="top">
-        <QuantumField />
-        <div className="hero-copy" data-reveal>
-          <p className="eyebrow"><span>01</span> Intelligence, made tangible</p>
-          <h1>
-            I build systems
-            <br />
-            that <em>think</em> —
-            <br />
-            and <span className="outline">ship.</span>
-          </h1>
-          <p className="hero-deck">
-            Shaif Ahamed Tamim is an AI engineer, researcher, and builder turning
-            complex intelligence into production-grade human experiences.
-          </p>
-          <div className="hero-actions">
-            <a className="button button-primary magnetic" href="#work">
-              Enter the work <span>↘</span>
-            </a>
-            <a
-              className="button button-ghost"
-              href="/documents/shaif-ahamed-tamim-cv.pdf"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Download CV <span>↓</span>
-            </a>
-          </div>
+      <section className="hero-artwork" id="top" aria-label="Shaif Ahamed Tamim — AI Engineer, Researcher, Builder">
+        <div className="hero-artwork-frame">
+          <Image
+            src="/og.png"
+            alt="Shaif Ahamed Tamim in a futuristic glass chamber with the title AI Engineer, Researcher, Builder"
+            fill
+            sizes="100vw"
+            priority
+          />
         </div>
-
-        <div className="portrait-stage" aria-label="Portrait of Shaif Ahamed Tamim" data-reveal>
-          <div className="orbital orbital-one" />
-          <div className="orbital orbital-two" />
-          <div className="orbital orbital-three" />
-          <div className="portrait-chamber">
-            <div className="portrait-aura" />
-            <Image
-              className="portrait"
-              src="/assets/shaif-portrait.png"
-              alt="Shaif Ahamed Tamim"
-              width={1086}
-              height={1448}
-              priority
-            />
-            <div className="portrait-glass" />
-          </div>
-          <div className="coordinate coordinate-a">23.8103° N</div>
-          <div className="coordinate coordinate-b">90.4125° E</div>
-          <div className="satellite satellite-a"><span>6</span> research signals</div>
-          <div className="satellite satellite-b"><span>3</span> teams mentored</div>
-        </div>
-
-        <div className="hero-footer">
-          <div className="hero-stat">
-            <span>Field</span>
-            Applied AI / Healthcare
-          </div>
-          <div className="hero-stat">
-            <span>Current signal</span>
-            Agentic systems + RAG
-          </div>
-          <a className="scroll-cue" href="#identity">
-            Scroll to decode <i>↓</i>
-          </a>
-        </div>
+        <a className="artwork-scroll" href="#identity">
+          Enter portfolio <span>↓</span>
+        </a>
       </section>
 
       <div className="skill-marquee" aria-label="Core expertise">
@@ -651,6 +523,7 @@ export function PortfolioExperience() {
         </div>
         <div className="footer-links">
           <a href="mailto:tamim.shaifahamed@icloud.com">Email</a>
+          <a href="https://github.com/shaif143" target="_blank" rel="noreferrer">GitHub</a>
           <a href="/studio">Owner studio</a>
           <a href="#top">Top ↑</a>
         </div>
