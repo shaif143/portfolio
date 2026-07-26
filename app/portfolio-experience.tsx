@@ -524,6 +524,7 @@ export function PortfolioExperience() {
         <div className="footer-links">
           <a href="mailto:tamim.shaifahamed@icloud.com">Email</a>
           <a href="https://github.com/shaif143" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="/api/portfolio/resume">CV</a>
           <a href="/studio">Owner studio</a>
           <a href="#top">Top ↑</a>
         </div>

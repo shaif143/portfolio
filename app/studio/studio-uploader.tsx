@@ -1,5 +1,6 @@
 "use client";
 
+import { upload } from "@vercel/blob/client";
 import { FormEvent, useState } from "react";
 
 export function StudioUploader() {
@@ -14,12 +15,29 @@ export function StudioUploader() {
     const data = new FormData(form);
 
     try {
-      const response = await fetch("/api/portfolio/upload", {
-        method: "POST",
-        body: data,
+      const file = data.get("file");
+      const kind = data.get("kind");
+      const title = String(data.get("title") || "").trim();
+      const studioKey = String(data.get("studioKey") || "");
+
+      if (!(file instanceof File) || (kind !== "photo" && kind !== "cv")) {
+        throw new Error("Choose a valid file and artifact type.");
+      }
+
+      const pathname =
+        kind === "cv"
+          ? "resume/shaif-ahamed-tamim.pdf"
+          : `gallery/${Date.now()}-${crypto.randomUUID()}-${safeFilename(title || file.name, file.name)}`;
+
+      await upload(pathname, file, {
+        access: "public",
+        handleUploadUrl: "/api/portfolio/upload",
+        headers: { "x-studio-key": studioKey },
+        clientPayload: JSON.stringify({ kind, title }),
+        contentType: file.type,
+        multipart: file.size > 5_000_000,
       });
-      const result = (await response.json()) as { ok?: boolean; error?: string };
-      if (!response.ok) throw new Error(result.error || "Upload failed");
+
       setStatus("Published. The portfolio has been updated.");
       form.reset();
     } catch (error) {
@@ -31,6 +49,16 @@ export function StudioUploader() {
 
   return (
     <form className="studio-form" onSubmit={submit}>
+      <label>
+        Private studio key
+        <input
+          name="studioKey"
+          type="password"
+          required
+          autoComplete="current-password"
+          placeholder="Enter your owner key"
+        />
+      </label>
       <label>
         Artifact type
         <select name="kind" defaultValue="photo">
@@ -58,4 +86,17 @@ export function StudioUploader() {
       <a className="text-link" href="/">Return to portfolio <span>↙</span></a>
     </form>
   );
+}
+
+function safeFilename(value: string, originalName: string): string {
+  const extension =
+    originalName.match(/\.(jpe?g|png|webp)$/i)?.[0].toLowerCase() || ".jpg";
+  const stem = value
+    .replace(/\.[^.]+$/, "")
+    .normalize("NFKD")
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+  return `${stem || "untitled-image"}${extension}`;
 }

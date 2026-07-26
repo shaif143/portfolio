@@ -5,7 +5,7 @@ based in Dhaka, Bangladesh.
 
 ## Live portfolio
 
-**[shaif-ahamed-tamim.hyperglow1.chatgpt.site](https://shaif-ahamed-tamim.hyperglow1.chatgpt.site)**
+**[shaif-portfolio.vercel.app](https://shaif-portfolio.vercel.app)**
 
 The experience includes:
 
@@ -18,10 +18,9 @@ The experience includes:
 
 ## Technology
 
-- React 19 and Next.js-compatible App Router
-- vinext and Vite
-- Cloudflare Workers
-- R2-backed CV and photography uploads
+- React 19 and Next.js App Router
+- Vercel Hobby hosting and serverless route handlers
+- Vercel Blob-backed CV and photography uploads
 - CSS 3D transforms and Canvas motion
 
 ## Local development
@@ -41,8 +40,8 @@ npm run build
 
 The root `index.html` is a lightweight gateway that redirects GitHub Pages
 visitors to the full production experience. The full application is hosted on
-Cloudflare because its secure owner studio and persistent uploads require a
-server runtime and object storage.
+Vercel because its secure owner studio and persistent uploads require a server
+runtime and object storage.
 
 ## Author
 
