@@ -8,10 +8,6 @@
       name="description"
       content="Shaif Ahamed Tamim — AI Engineer, Researcher, and Builder."
     />
-    <meta
-      http-equiv="refresh"
-      content="0; url=https://shaif-ahamed-tamim.hyperglow1.chatgpt.site"
-    />
     <link
       rel="canonical"
       href="https://shaif-ahamed-tamim.hyperglow1.chatgpt.site"
@@ -22,54 +18,62 @@
       html, body { min-height: 100%; }
       body {
         margin: 0;
-        display: grid;
-        place-items: center;
-        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 22px;
+        padding: 14px;
         background: #020204;
         color: #f2f0f7;
         font-family: Arial, Helvetica, sans-serif;
       }
       main {
-        width: min(1100px, 100%);
-        padding: clamp(32px, 8vw, 96px);
+        position: relative;
+        width: min(96vw, 183vh, 1734px);
+        aspect-ratio: 1734 / 907;
+        overflow: hidden;
         border: 1px solid rgba(255,255,255,.15);
-        background: radial-gradient(circle at 75% 20%, rgba(124,60,255,.22), transparent 40%), #07070b;
+        border-radius: clamp(18px, 2.7vw, 48px);
+        background: #07070b;
+        box-shadow: 0 45px 140px rgba(0,0,0,.64), 0 0 90px rgba(124,60,255,.08);
       }
-      p {
-        color: #56e6ff;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: .18em;
-        text-transform: uppercase;
-      }
-      h1 {
-        max-width: 800px;
-        margin: 24px 0 38px;
-        font-size: clamp(3rem, 8vw, 8rem);
-        line-height: .88;
-        letter-spacing: -.065em;
-        text-transform: uppercase;
+      img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
       }
       a {
-        display: inline-block;
-        padding: 18px 24px;
-        background: #c8ff4d;
-        color: #050507;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: .12em;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: #c8ff4d;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .16em;
         text-decoration: none;
         text-transform: uppercase;
+      }
+      a span {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border: 1px solid rgba(200,255,77,.4);
+        border-radius: 50%;
       }
     </style>
   </head>
   <body>
     <main>
-      <p>Redirecting to the full experience</p>
-      <h1>Shaif Ahamed Tamim</h1>
-      <a href="https://shaif-ahamed-tamim.hyperglow1.chatgpt.site">
-        Enter portfolio ↗
-      </a>
+      <img
+        src="./public/og.png"
+        alt="Shaif Ahamed Tamim — AI Engineer, Researcher, Builder"
+      />
     </main>
+    <a href="https://shaif-ahamed-tamim.hyperglow1.chatgpt.site">
+      Enter full portfolio <span>↗</span>
+    </a>
   </body>
 </html>
