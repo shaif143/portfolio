@@ -3,19 +3,31 @@
 import { useEffect, useRef } from "react";
 
 const IDLE_DELAY = 4800;
+const FLIGHT_FRAMES = [
+  "/assets/phoenix-cursor-up.png",
+  "/assets/phoenix-cursor.png",
+  "/assets/phoenix-cursor-down.png",
+  "/assets/phoenix-cursor.png",
+] as const;
 
 export function PhoenixCursor() {
   const phoenixRef = useRef<HTMLDivElement>(null);
+  const phoenixImageRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const phoenix = phoenixRef.current;
+    const phoenixImage = phoenixImageRef.current;
     const finePointer = window.matchMedia("(pointer: fine) and (hover: hover)");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    if (!phoenix || !finePointer.matches || reducedMotion.matches) return;
+    if (!phoenix || !phoenixImage || !finePointer.matches || reducedMotion.matches) return;
 
     document.documentElement.classList.add("phoenix-cursor-enabled");
     phoenix.dataset.visible = "true";
+    FLIGHT_FRAMES.forEach((source) => {
+      const preload = new Image();
+      preload.src = source;
+    });
 
     let animationFrame = 0;
     let mode: "guardian" | "cursor" = "guardian";
@@ -26,6 +38,9 @@ export function PhoenixCursor() {
     let currentX = pointerX;
     let currentY = pointerY;
     let clickTimer = 0;
+    let renderedFlightFrame = -1;
+    let previousFlightTargetX = pointerX;
+    let previousFlightTargetY = pointerY;
 
     const setMode = (nextMode: "guardian" | "cursor") => {
       if (mode === nextMode) return;
@@ -90,19 +105,35 @@ export function PhoenixCursor() {
       let roll = 0;
 
       if (mode === "guardian") {
-        const birdSize = Math.min(250, Math.max(178, window.innerWidth * 0.16));
+        const birdSize = Math.min(235, Math.max(185, window.innerWidth * 0.15));
         const minX = Math.min(window.innerWidth * 0.45, birdSize + 18);
         const maxX = Math.max(minX + 1, window.innerWidth - 18);
         const minY = 12;
         const maxY = Math.max(minY + 1, window.innerHeight - birdSize - 16);
-        const horizontal = 0.5 + Math.sin(time * 0.00031) * 0.48;
-        const vertical = 0.5 + Math.sin(time * 0.00043 + 1.35) * 0.46;
+        const flightTime = time * 0.00028;
+        const horizontal = 0.5 + Math.sin(flightTime) * 0.48;
+        const vertical =
+          0.5 +
+          Math.sin(flightTime * 2 + 0.72) * 0.34 +
+          Math.sin(flightTime * 0.53 + 1.8) * 0.1;
         targetX = minX + (maxX - minX) * horizontal;
         targetY = minY + (maxY - minY) * vertical;
-        roll = Math.sin(time * 0.00062) * 7;
+        const verticalVelocity = targetY - previousFlightTargetY;
+        const horizontalVelocity = targetX - previousFlightTargetX;
+        roll = Math.max(-11, Math.min(11, verticalVelocity * 1.7 + horizontalVelocity * 0.12));
+        previousFlightTargetX = targetX;
+        previousFlightTargetY = targetY;
       }
 
-      const easing = mode === "cursor" ? 0.32 : 0.035;
+      const flapStep = mode === "guardian" ? 108 : 124;
+      const flightFrame = Math.floor(time / flapStep) % FLIGHT_FRAMES.length;
+      if (flightFrame !== renderedFlightFrame) {
+        phoenixImage.src = FLIGHT_FRAMES[flightFrame];
+        phoenix.dataset.flightFrame = String(flightFrame);
+        renderedFlightFrame = flightFrame;
+      }
+
+      const easing = mode === "cursor" ? 0.34 : 0.042;
       currentX += (targetX - currentX) * easing;
       currentY += (targetY - currentY) * easing;
 
@@ -136,7 +167,7 @@ export function PhoenixCursor() {
     <div className="phoenix-cursor" ref={phoenixRef} aria-hidden="true">
       <span className="phoenix-aura" />
       <span className="phoenix-flight-line" />
-      <img src="/assets/phoenix-cursor.png" alt="" draggable="false" />
+      <img ref={phoenixImageRef} src="/assets/phoenix-cursor-up.png" alt="" draggable="false" />
       <span className="phoenix-click-ring" />
       <span className="phoenix-spark spark-a" />
       <span className="phoenix-spark spark-b" />

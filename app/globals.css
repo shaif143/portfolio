@@ -72,7 +72,7 @@ a {
   z-index: 4;
   top: -1px;
   right: -1px;
-  width: 72px;
+  width: 112px;
   max-width: none;
   height: auto;
   user-select: none;
@@ -91,10 +91,10 @@ a {
 .phoenix-aura {
   position: absolute;
   z-index: 1;
-  top: -41px;
-  left: -41px;
-  width: 82px;
-  height: 82px;
+  top: -52px;
+  left: -52px;
+  width: 104px;
+  height: 104px;
   border-radius: 50%;
   opacity: .58;
   background:
@@ -148,8 +148,8 @@ a {
 .spark-c { left: 5px; top: 1px; background: #fff; box-shadow: 0 0 9px #fff; }
 
 .phoenix-cursor[data-mode="guardian"] img {
-  width: clamp(178px, 16vw, 250px);
-  animation: phoenix-guardian-breathe 3.7s ease-in-out infinite;
+  width: clamp(185px, 15vw, 235px);
+  animation: phoenix-guardian-breathe 1.85s ease-in-out infinite;
   filter:
     drop-shadow(0 24px 24px rgba(0,0,0,.72))
     drop-shadow(0 0 17px rgba(86,230,255,.3))
@@ -170,7 +170,7 @@ a {
 }
 
 .phoenix-cursor[data-mode="cursor"].is-action img {
-  width: 86px;
+  width: 128px;
   filter:
     drop-shadow(0 8px 10px rgba(0,0,0,.72))
     drop-shadow(0 0 10px rgba(200,255,77,.55))
@@ -178,8 +178,17 @@ a {
 }
 
 .phoenix-cursor.is-pressing img {
-  width: 62px;
+  width: 104px;
   filter: drop-shadow(0 0 15px rgba(255,255,255,.58)) drop-shadow(0 0 20px rgba(200,255,77,.5));
+}
+
+.phoenix-cursor[data-flight-frame="0"] .phoenix-aura {
+  opacity: .92;
+  transform: scale(1.08);
+}
+
+.phoenix-cursor[data-flight-frame="2"] .phoenix-flight-line {
+  filter: brightness(1.45);
 }
 
 .phoenix-cursor.did-click .phoenix-click-ring {
