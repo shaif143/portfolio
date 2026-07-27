@@ -358,6 +358,57 @@ export function PortfolioExperience() {
         </div>
       </section>
 
+      <section className="okf-feature section-shell">
+        <div className="okf-feature-frame" data-reveal>
+          <div className="okf-feature-topline">
+            <p><span>Clinical intelligence · Version 02</span> Open Knowledge Format</p>
+            <span>LIVE · 2026</span>
+          </div>
+          <div className="okf-feature-visual">
+            <Image
+              src="/assets/clinical-okf-preview.png"
+              alt="ClinicalOKF traceable clinical knowledge system"
+              fill
+              sizes="(max-width: 800px) 100vw, 90vw"
+            />
+            <a
+              className="okf-visual-link"
+              href="https://clinical-assistant-okf.vercel.app"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Launch live system <span>↗</span>
+            </a>
+          </div>
+          <div className="okf-feature-copy">
+            <div>
+              <p className="eyebrow">Knowledge-first architecture</p>
+              <h2>Every explanation<br />has a trail.</h2>
+            </div>
+            <div className="okf-feature-detail">
+              <p>
+                A deterministic clinical report assistant built with Open Knowledge
+                Format instead of vector search. It routes report facts through a
+                governed ontology, executes visible safety rules, links every
+                explanation to its sources, and preserves the final decision for
+                human review.
+              </p>
+              <div className="okf-feature-tags">
+                {["OKF v0.2", "Clinical ontology", "Rule engine", "Audit trail", "Human review"].map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="okf-feature-metrics">
+            <div><strong>12</strong><span>governed concepts</span></div>
+            <div><strong>17</strong><span>primary sources</span></div>
+            <div><strong>13</strong><span>routing evaluations</span></div>
+            <div><strong>0</strong><span>vector databases</span></div>
+          </div>
+        </div>
+      </section>
+
       <section className="research section-shell" id="research">
         <SectionIntro
           index="04"
