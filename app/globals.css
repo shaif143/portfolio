@@ -54,6 +54,7 @@ a {
   --phoenix-x: 70vw;
   --phoenix-y: 28vh;
   --phoenix-roll: 0deg;
+  --phoenix-yaw: 0deg;
   position: fixed;
   z-index: 2147483647;
   top: 0;
@@ -63,6 +64,7 @@ a {
   display: none;
   pointer-events: none;
   transform: translate3d(var(--phoenix-x), var(--phoenix-y), 0);
+  perspective: 900px;
   will-change: transform;
   contain: layout style;
 }
@@ -72,11 +74,11 @@ a {
   z-index: 4;
   top: -1px;
   right: -1px;
-  width: 112px;
+  width: 36px;
   max-width: none;
   height: auto;
   user-select: none;
-  transform: rotate(var(--phoenix-roll));
+  transform: rotateZ(var(--phoenix-roll)) rotateY(var(--phoenix-yaw));
   transform-origin: 100% 0%;
   filter:
     drop-shadow(0 7px 8px rgba(0,0,0,.75))
@@ -84,6 +86,7 @@ a {
     drop-shadow(0 0 12px rgba(124,60,255,.22));
   transition:
     width 420ms cubic-bezier(.16,.9,.25,1.15),
+    transform 780ms cubic-bezier(.2,.65,.2,1),
     filter 220ms ease,
     opacity 220ms ease;
 }
@@ -149,7 +152,6 @@ a {
 
 .phoenix-cursor[data-mode="guardian"] img {
   width: clamp(185px, 15vw, 235px);
-  animation: phoenix-guardian-breathe 1.85s ease-in-out infinite;
   filter:
     drop-shadow(0 24px 24px rgba(0,0,0,.72))
     drop-shadow(0 0 17px rgba(86,230,255,.3))
@@ -170,7 +172,7 @@ a {
 }
 
 .phoenix-cursor[data-mode="cursor"].is-action img {
-  width: 128px;
+  width: 43px;
   filter:
     drop-shadow(0 8px 10px rgba(0,0,0,.72))
     drop-shadow(0 0 10px rgba(200,255,77,.55))
@@ -178,8 +180,32 @@ a {
 }
 
 .phoenix-cursor.is-pressing img {
-  width: 104px;
+  width: 31px;
   filter: drop-shadow(0 0 15px rgba(255,255,255,.58)) drop-shadow(0 0 20px rgba(200,255,77,.5));
+}
+
+.phoenix-cursor[data-facing="right"] {
+  --phoenix-yaw: 0deg;
+}
+
+.phoenix-cursor[data-facing="left"] {
+  --phoenix-yaw: 180deg;
+}
+
+.phoenix-cursor[data-facing="left"] .phoenix-flight-line {
+  transform: rotate(-28deg);
+}
+
+.phoenix-cursor[data-turning="true"] img {
+  filter:
+    drop-shadow(0 24px 28px rgba(0,0,0,.74))
+    drop-shadow(0 0 24px rgba(86,230,255,.48))
+    drop-shadow(0 0 36px rgba(124,60,255,.34));
+}
+
+.phoenix-cursor[data-turning="true"] .phoenix-aura {
+  opacity: 1;
+  filter: blur(13px);
 }
 
 .phoenix-cursor[data-flight-frame="0"] .phoenix-aura {

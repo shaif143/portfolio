@@ -8,7 +8,43 @@ const FLIGHT_FRAMES = [
   "/assets/phoenix-cursor.png",
   "/assets/phoenix-cursor-down.png",
   "/assets/phoenix-cursor.png",
+  "/assets/phoenix-cursor-glide.png",
+  "/assets/phoenix-cursor.png",
 ] as const;
+const CURSOR_FRAMES = FLIGHT_FRAMES.slice(0, 4);
+const BANK_FRAME = "/assets/phoenix-cursor-bank.png";
+const FLIGHT_PATH = [
+  { x: 0.08, y: 0.58 },
+  { x: 0.2, y: 0.2 },
+  { x: 0.56, y: 0.08 },
+  { x: 0.9, y: 0.26 },
+  { x: 0.84, y: 0.68 },
+  { x: 0.56, y: 0.88 },
+  { x: 0.2, y: 0.78 },
+  { x: 0.06, y: 0.42 },
+] as const;
+
+function flightPoint(progress: number) {
+  const count = FLIGHT_PATH.length;
+  const wrapped = ((progress % count) + count) % count;
+  const index = Math.floor(wrapped);
+  const t = wrapped - index;
+  const p0 = FLIGHT_PATH[(index - 1 + count) % count];
+  const p1 = FLIGHT_PATH[index];
+  const p2 = FLIGHT_PATH[(index + 1) % count];
+  const p3 = FLIGHT_PATH[(index + 2) % count];
+  const interpolate = (a: number, b: number, c: number, d: number) =>
+    0.5 *
+    ((2 * b) +
+      (-a + c) * t +
+      (2 * a - 5 * b + 4 * c - d) * t * t +
+      (-a + 3 * b - 3 * c + d) * t * t * t);
+
+  return {
+    x: interpolate(p0.x, p1.x, p2.x, p3.x),
+    y: interpolate(p0.y, p1.y, p2.y, p3.y),
+  };
+}
 
 export function PhoenixCursor() {
   const phoenixRef = useRef<HTMLDivElement>(null);
@@ -24,7 +60,7 @@ export function PhoenixCursor() {
 
     document.documentElement.classList.add("phoenix-cursor-enabled");
     phoenix.dataset.visible = "true";
-    FLIGHT_FRAMES.forEach((source) => {
+    [...FLIGHT_FRAMES, BANK_FRAME].forEach((source) => {
       const preload = new Image();
       preload.src = source;
     });
@@ -39,14 +75,19 @@ export function PhoenixCursor() {
     let currentY = pointerY;
     let clickTimer = 0;
     let renderedFlightFrame = -1;
-    let previousFlightTargetX = pointerX;
-    let previousFlightTargetY = pointerY;
+    let facing: "right" | "left" = "right";
+    let turningUntil = 0;
 
     const setMode = (nextMode: "guardian" | "cursor") => {
       if (mode === nextMode) return;
       mode = nextMode;
       phoenix.dataset.mode = nextMode;
       phoenix.classList.toggle("is-action", false);
+      if (nextMode === "cursor") {
+        facing = "right";
+        phoenix.dataset.facing = "right";
+        phoenix.dataset.turning = "false";
+      }
     };
 
     const wakeCursor = () => {
@@ -106,34 +147,42 @@ export function PhoenixCursor() {
 
       if (mode === "guardian") {
         const birdSize = Math.min(235, Math.max(185, window.innerWidth * 0.15));
-        const minX = Math.min(window.innerWidth * 0.45, birdSize + 18);
-        const maxX = Math.max(minX + 1, window.innerWidth - 18);
-        const minY = 12;
-        const maxY = Math.max(minY + 1, window.innerHeight - birdSize - 16);
-        const flightTime = time * 0.00028;
-        const horizontal = 0.5 + Math.sin(flightTime) * 0.48;
-        const vertical =
-          0.5 +
-          Math.sin(flightTime * 2 + 0.72) * 0.34 +
-          Math.sin(flightTime * 0.53 + 1.8) * 0.1;
-        targetX = minX + (maxX - minX) * horizontal;
-        targetY = minY + (maxY - minY) * vertical;
-        const verticalVelocity = targetY - previousFlightTargetY;
-        const horizontalVelocity = targetX - previousFlightTargetX;
-        roll = Math.max(-11, Math.min(11, verticalVelocity * 1.7 + horizontalVelocity * 0.12));
-        previousFlightTargetX = targetX;
-        previousFlightTargetY = targetY;
+        const horizontalMargin = Math.min(window.innerWidth * 0.32, birdSize + 20);
+        const verticalSpace = Math.max(1, window.innerHeight - birdSize - 30);
+        const horizontalSpace = Math.max(1, window.innerWidth - horizontalMargin * 2);
+        const progress = time * 0.00018;
+        const position = flightPoint(progress);
+        const future = flightPoint(progress + 0.012);
+        const directionX = future.x - position.x;
+        const directionY = future.y - position.y;
+        const nextFacing = directionX >= 0 ? "right" : "left";
+
+        targetX = horizontalMargin + position.x * horizontalSpace;
+        targetY = 14 + position.y * verticalSpace;
+        roll = Math.max(-16, Math.min(16, directionY * 390));
+
+        if (nextFacing !== facing && Math.abs(directionX) > 0.0012) {
+          facing = nextFacing;
+          phoenix.dataset.facing = facing;
+          turningUntil = time + 900;
+        }
       }
 
-      const flapStep = mode === "guardian" ? 108 : 124;
-      const flightFrame = Math.floor(time / flapStep) % FLIGHT_FRAMES.length;
-      if (flightFrame !== renderedFlightFrame) {
-        phoenixImage.src = FLIGHT_FRAMES[flightFrame];
-        phoenix.dataset.flightFrame = String(flightFrame);
-        renderedFlightFrame = flightFrame;
+      const turning = mode === "guardian" && time < turningUntil;
+      phoenix.dataset.turning = String(turning);
+      const activeFrames = mode === "guardian" ? FLIGHT_FRAMES : CURSOR_FRAMES;
+      const flapStep = mode === "guardian" ? 112 : 155;
+      const flightFrame = Math.floor(time / flapStep) % activeFrames.length;
+      const frameSource = turning ? BANK_FRAME : activeFrames[flightFrame];
+      const renderedKey = turning ? -2 : flightFrame;
+
+      if (renderedKey !== renderedFlightFrame || phoenixImage.src !== new URL(frameSource, window.location.href).href) {
+        phoenixImage.src = frameSource;
+        phoenix.dataset.flightFrame = turning ? "bank" : String(flightFrame);
+        renderedFlightFrame = renderedKey;
       }
 
-      const easing = mode === "cursor" ? 0.34 : 0.042;
+      const easing = mode === "cursor" ? 0.34 : 0.085;
       currentX += (targetX - currentX) * easing;
       currentY += (targetY - currentY) * easing;
 
@@ -144,6 +193,8 @@ export function PhoenixCursor() {
     };
 
     phoenix.dataset.mode = "guardian";
+    phoenix.dataset.facing = "right";
+    phoenix.dataset.turning = "false";
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
     window.addEventListener("pointerdown", handlePointerDown, { passive: true });
     window.addEventListener("pointerup", handlePointerUp, { passive: true });
