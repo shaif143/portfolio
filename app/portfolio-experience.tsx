@@ -52,17 +52,17 @@ const publications = [
 const experiences = [
   {
     period: "Now",
-    role: "AI/ML Researcher & Software Engineer",
-    org: "PAP International Ltd.",
-    copy: "Production AI pipelines, document intelligence, data ingestion, REST APIs, and cost-aware LLM architecture.",
-    tags: ["LangChain", "OpenAI", "NLP", "APIs"],
-  },
-  {
-    period: "Now",
     role: "Research Assistant & Team Lead",
     org: "AIRIL — AI Research & Innovation Lab",
     copy: "Mentoring three research teams across healthcare AI, explainability, NLP, and deep learning.",
     tags: ["XAI", "BERT", "CNN", "Mentorship"],
+  },
+  {
+    period: "Chapter 03",
+    role: "AI/ML Researcher & Software Engineer",
+    org: "PAP International Ltd.",
+    copy: "Built production AI pipelines, document intelligence, data ingestion, REST APIs, and cost-aware LLM architecture.",
+    tags: ["LangChain", "OpenAI", "NLP", "APIs"],
   },
   {
     period: "Chapter 02",
@@ -321,11 +321,11 @@ export function PortfolioExperience() {
               </p>
               <a
                 className="text-link"
-                href="https://drive.google.com/file/d/13hsqASgPu1Km8b1_hith6v6IRvkB-QCk/view?usp=sharing"
+                href="https://clinical-assistant-agent.vercel.app"
                 target="_blank"
                 rel="noreferrer"
               >
-                Watch project presentation <span>↗</span>
+                Open ClinicalAI system <span>↗</span>
               </a>
             </div>
             <div className="system-orbit" aria-label="Project architecture visualization">
@@ -345,7 +345,7 @@ export function PortfolioExperience() {
               ["03", "specialized agents"],
               ["08", "guideline documents"],
               ["15", "synthetic reports"],
-              ["AWS", "EC2 + S3 deployment"],
+              ["Vercel", "secure serverless deployment"],
             ].map(([value, label]) => (
               <div key={label}><strong>{value}</strong><span>{label}</span></div>
             ))}
