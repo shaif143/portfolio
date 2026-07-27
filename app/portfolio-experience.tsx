@@ -161,6 +161,35 @@ function SectionIntro({
   );
 }
 
+function CelestialMark({ compact = false }: { compact?: boolean }) {
+  return (
+    <div
+      className={compact ? "celestial-signature compact" : "celestial-signature"}
+      role="img"
+      aria-label="SHAIF celestial identity mark, a decorative brand symbol and not a legal signature"
+    >
+      <div className="celestial-stage" aria-hidden="true">
+        <div className="celestial-aura" />
+        <div className="celestial-ring celestial-ring-alpha" />
+        <div className="celestial-ring celestial-ring-beta" />
+        <div className="celestial-ring celestial-ring-gamma" />
+        <div className="celestial-gem">
+          <span>SHAIF</span>
+        </div>
+        <span className="celestial-star star-one">✦</span>
+        <span className="celestial-star star-two">✦</span>
+        <span className="celestial-star star-three">✦</span>
+      </div>
+      {!compact && (
+        <div className="celestial-legend">
+          <strong>Shaif Ahamed Tamim</strong>
+          <span>Celestial identity mark · not a legal signature</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function PortfolioExperience() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -251,10 +280,7 @@ export function PortfolioExperience() {
               human-centered design. The goal is not another demo. It is an
               intelligent system people can understand, use, and rely on.
             </p>
-            <div className="signature-wrap">
-              <Image src="/assets/shaif-signature.png" alt="Shaif's signature" width={300} height={80} />
-              <span>Shaif Ahamed Tamim</span>
-            </div>
+            <CelestialMark />
           </article>
           <div className="identity-facts">
             {[
@@ -569,7 +595,7 @@ export function PortfolioExperience() {
       <footer>
         <a className="footer-name" href="#top">Shaif Ahamed Tamim</a>
         <div className="footer-center">
-          <Image src="/assets/shaif-signature.png" alt="" width={150} height={40} />
+          <CelestialMark compact />
           <span>Designed with intent · built with intelligence</span>
         </div>
         <div className="footer-links">

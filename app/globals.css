@@ -734,27 +734,205 @@ a {
   line-height: 1.75;
 }
 
-.signature-wrap {
+.celestial-signature {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 18px;
-  margin-top: 52px;
+  gap: 28px;
+  width: fit-content;
+  margin-top: 46px;
+  perspective: 900px;
 }
 
-.signature-wrap img {
-  width: 100px;
-  height: auto;
-  filter: invert(1) brightness(1.7);
+.celestial-stage {
+  position: relative;
+  flex: 0 0 auto;
+  width: 126px;
+  height: 126px;
+  display: grid;
+  place-items: center;
+  transform-style: preserve-3d;
+  animation: celestial-float 5.8s ease-in-out infinite;
 }
 
-.signature-wrap span {
-  padding-left: 18px;
-  border-left: 1px solid var(--line);
-  color: #817d89;
-  font-size: 10px;
+.celestial-aura {
+  position: absolute;
+  inset: 13%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 30%, rgba(255,255,255,.92), rgba(86,230,255,.32) 9%, rgba(124,60,255,.34) 31%, transparent 68%);
+  filter: blur(13px);
+  opacity: .72;
+  transform: translateZ(-30px);
+  animation: celestial-breathe 3.4s ease-in-out infinite;
+}
+
+.celestial-ring {
+  position: absolute;
+  inset: 8%;
+  border: 1px solid rgba(86,230,255,.38);
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 22px rgba(86,230,255,.1), inset 0 0 18px rgba(86,230,255,.06);
+}
+
+.celestial-ring::before {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  left: 7%;
+  top: 24%;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 14px var(--cyan);
+}
+
+.celestial-ring-alpha {
+  transform: rotateX(68deg) rotateZ(18deg);
+  animation: celestial-orbit-alpha 9s linear infinite;
+}
+
+.celestial-ring-beta {
+  inset: 18%;
+  border-color: rgba(200,255,77,.34);
+  border-style: dashed;
+  transform: rotateY(68deg) rotateZ(-12deg);
+  animation: celestial-orbit-beta 7s linear infinite;
+}
+
+.celestial-ring-beta::before {
+  left: auto;
+  right: 2%;
+  top: 52%;
+  width: 6px;
+  height: 6px;
+  background: var(--lime);
+  box-shadow: 0 0 14px var(--lime);
+}
+
+.celestial-ring-gamma {
+  inset: 29%;
+  border-color: rgba(167,127,255,.48);
+  transform: rotateX(34deg) rotateY(55deg);
+  animation: celestial-orbit-gamma 5.5s linear infinite reverse;
+}
+
+.celestial-ring-gamma::before {
+  background: var(--violet-soft);
+  box-shadow: 0 0 14px var(--violet-soft);
+}
+
+.celestial-gem {
+  position: relative;
+  z-index: 4;
+  width: 70px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  clip-path: polygon(50% 0, 91% 23%, 91% 77%, 50% 100%, 9% 77%, 9% 23%);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.92) 0 4%, transparent 5%),
+    radial-gradient(circle at 34% 24%, #aefcff, #6d51dc 38%, #170c35 72%);
+  box-shadow: inset -12px -15px 22px rgba(0,0,0,.38);
+  filter: drop-shadow(0 14px 17px rgba(0,0,0,.5)) drop-shadow(0 0 13px rgba(124,60,255,.65));
+  transform-style: preserve-3d;
+  animation: celestial-gem-turn 8s cubic-bezier(.45,.05,.55,.95) infinite;
+}
+
+.celestial-gem::before,
+.celestial-gem::after {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  clip-path: inherit;
+  border: 1px solid rgba(255,255,255,.27);
+}
+
+.celestial-gem::after {
+  inset: 20%;
+  background: radial-gradient(circle, rgba(200,255,77,.4), transparent 68%);
+  border-color: rgba(200,255,77,.18);
+}
+
+.celestial-gem span {
+  position: relative;
+  z-index: 3;
+  color: #f7f5ff;
+  font: 780 13px/1 var(--display);
+  letter-spacing: .08em;
+  text-shadow: 0 0 9px rgba(255,255,255,.55);
+}
+
+.celestial-star {
+  position: absolute;
+  z-index: 5;
+  color: #fff;
+  font-size: 9px;
+  text-shadow: 0 0 9px #fff, 0 0 18px var(--cyan);
+  animation: celestial-twinkle 2.2s ease-in-out infinite;
+}
+
+.star-one { left: 2%; top: 17%; }
+.star-two { right: 2%; bottom: 22%; color: var(--lime); animation-delay: -.8s; }
+.star-three { right: 19%; top: 2%; color: var(--violet-soft); animation-delay: -1.4s; }
+
+.celestial-legend {
+  position: relative;
+  padding-left: 22px;
+  border-left: 1px solid rgba(86,230,255,.24);
+}
+
+.celestial-legend::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 0;
+  width: 3px;
+  height: 23px;
+  background: linear-gradient(var(--cyan), transparent);
+  box-shadow: 0 0 13px rgba(86,230,255,.5);
+}
+
+.celestial-legend strong {
+  display: block;
+  color: #d9d6e0;
+  font: 650 12px/1.2 var(--body);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: .14em;
 }
+
+.celestial-legend span {
+  display: block;
+  margin-top: 9px;
+  color: #6f6b77;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: .13em;
+}
+
+.celestial-signature.compact {
+  display: block;
+  margin: 0 0 5px;
+}
+
+.celestial-signature.compact .celestial-stage {
+  width: 58px;
+  height: 58px;
+}
+
+.celestial-signature.compact .celestial-gem {
+  width: 35px;
+  height: 29px;
+}
+
+.celestial-signature.compact .celestial-gem span {
+  font-size: 6px;
+}
+
+.celestial-signature.compact .celestial-star { font-size: 5px; }
 
 .identity-facts {
   display: flex;
@@ -1964,14 +2142,6 @@ footer {
   letter-spacing: .13em;
 }
 
-.footer-center img {
-  width: 65px;
-  height: auto;
-  margin-bottom: 5px;
-  filter: invert(1);
-  opacity: .7;
-}
-
 .footer-links {
   justify-self: end;
   display: flex;
@@ -2726,6 +2896,43 @@ footer {
   to { transform: translateX(-50%); }
 }
 
+@keyframes celestial-float {
+  0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(-6deg); }
+  50% { transform: translateY(-9px) rotateX(4deg) rotateY(7deg); }
+}
+
+@keyframes celestial-breathe {
+  0%, 100% { opacity: .48; transform: translateZ(-30px) scale(.86); }
+  50% { opacity: .92; transform: translateZ(-30px) scale(1.12); }
+}
+
+@keyframes celestial-orbit-alpha {
+  from { transform: rotateX(68deg) rotateZ(18deg); }
+  to { transform: rotateX(68deg) rotateZ(378deg); }
+}
+
+@keyframes celestial-orbit-beta {
+  from { transform: rotateY(68deg) rotateZ(-12deg); }
+  to { transform: rotateY(68deg) rotateZ(-372deg); }
+}
+
+@keyframes celestial-orbit-gamma {
+  from { transform: rotateX(34deg) rotateY(55deg) rotateZ(0deg); }
+  to { transform: rotateX(34deg) rotateY(55deg) rotateZ(360deg); }
+}
+
+@keyframes celestial-gem-turn {
+  0%, 12% { transform: rotateY(0deg) rotateZ(0deg) translateZ(18px); }
+  45% { transform: rotateY(155deg) rotateZ(6deg) translateZ(25px); }
+  55% { transform: rotateY(205deg) rotateZ(-6deg) translateZ(25px); }
+  88%, 100% { transform: rotateY(360deg) rotateZ(0deg) translateZ(18px); }
+}
+
+@keyframes celestial-twinkle {
+  0%, 100% { opacity: .22; transform: scale(.55) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.22) rotate(90deg); }
+}
+
 @media (max-width: 1100px) {
   .hero {
     grid-template-columns: 1.1fr .9fr;
@@ -3044,6 +3251,26 @@ footer {
 
   .statement-card blockquote {
     margin-top: 50px;
+  }
+
+  .celestial-signature {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .celestial-legend {
+    padding: 13px 0 0;
+    border-left: 0;
+    border-top: 1px solid rgba(86,230,255,.24);
+  }
+
+  .celestial-legend::before {
+    left: 0;
+    top: -2px;
+    width: 38px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
   }
 
   .fact-row {
