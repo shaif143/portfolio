@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { PhoenixCursor } from "./phoenix-cursor";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shaif-portfolio.vercel.app"),
@@ -48,7 +49,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <PhoenixCursor />
+      </body>
     </html>
   );
 }
