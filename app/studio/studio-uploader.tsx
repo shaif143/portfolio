@@ -1,6 +1,6 @@
 "use client";
 
-import { upload } from "@vercel/blob/client";
+import { uploadPresigned } from "@vercel/blob/client";
 import { FormEvent, useState } from "react";
 
 type StudioUploaderProps = {
@@ -101,7 +101,7 @@ export function StudioUploader({
               )}`;
 
         setStatus(`Publishing ${position} to the private archive…`);
-        await upload(pathname, uploadFile, {
+        await uploadPresigned(pathname, uploadFile, {
           access: "public",
           handleUploadUrl: "/api/portfolio/upload",
           headers: { "x-studio-key": studioKey },

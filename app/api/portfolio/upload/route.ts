@@ -1,33 +1,49 @@
-import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
+import { issueSignedToken } from "@vercel/blob";
+import {
+  handleUploadPresigned,
+  type HandleUploadPresignedBody,
+} from "@vercel/blob/client";
 import { timingSafeEqual } from "node:crypto";
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as HandleUploadBody;
+  const body = (await request.json()) as HandleUploadPresignedBody;
 
   try {
-    const result = await handleUpload({
+    const result = await handleUploadPresigned({
       body,
       request,
-      onBeforeGenerateToken: async (pathname, clientPayload) => {
+      getSignedToken: async (pathname, clientPayload) => {
         if (!isStudioKeyValid(request.headers.get("x-studio-key"))) {
           throw new Error("Owner access required.");
         }
 
         const payload = parsePayload(clientPayload);
         validatePathname(pathname, payload.kind);
+        const allowedContentTypes =
+          payload.kind === "cv"
+            ? ["application/pdf"]
+            : ["image/jpeg", "image/png", "image/webp"];
+        const maximumSizeInBytes = payload.kind === "cv" ? 8_000_000 : 50_000_000;
+        const validUntil = Date.now() + 15 * 60 * 1000;
 
         return {
-          allowedContentTypes:
-            payload.kind === "cv"
-              ? ["application/pdf"]
-              : ["image/jpeg", "image/png", "image/webp"],
-          maximumSizeInBytes: payload.kind === "cv" ? 8_000_000 : 50_000_000,
-          addRandomSuffix: false,
-          allowOverwrite: payload.kind === "cv",
-          cacheControlMaxAge: payload.kind === "cv" ? 60 : 3600,
-          tokenPayload: JSON.stringify(payload),
+          token: await issueSignedToken({
+            pathname,
+            operations: ["put"],
+            allowedContentTypes,
+            maximumSizeInBytes,
+            validUntil,
+          }),
+          urlOptions: {
+            allowedContentTypes,
+            maximumSizeInBytes,
+            validUntil,
+            addRandomSuffix: false,
+            allowOverwrite: payload.kind === "cv",
+            cacheControlMaxAge: payload.kind === "cv" ? 60 : 3600,
+          },
         };
       },
     });
