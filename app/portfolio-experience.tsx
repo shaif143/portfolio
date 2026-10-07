@@ -243,7 +243,7 @@ export function PortfolioExperience() {
         <div className="hero-artwork-frame">
           <Image
             src="/og.png"
-            alt="Shaif Ahamed Tamim in a futuristic glass chamber with the title AI Engineer, Researcher, Builder"
+            alt="A futuristic humanoid robot in a luminous glass chamber beside the title Shaif Ahamed Tamim — AI Engineer, Researcher, Builder"
             fill
             sizes="100vw"
             priority
