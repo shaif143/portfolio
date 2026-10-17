@@ -11,72 +11,64 @@ type GalleryItem = {
 
 export function NocturneGallery() {
   const [items, setItems] = useState<GalleryItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/portfolio/gallery")
+    const controller = new AbortController();
+    fetch("/api/portfolio/gallery", { signal: controller.signal })
       .then((response) => (response.ok ? response.json() : { items: [] }))
       .then((data) =>
         setItems(Array.isArray(data.items) ? data.items.slice(0, 2) : []),
       )
-      .catch(() => setItems([]));
+      .catch(() => {})
+      .finally(() => setLoading(false));
+    return () => controller.abort();
   }, []);
 
   return (
-    <section className="gallery section-shell" id="archive">
-      <div className="section-intro" data-reveal>
-        <div className="section-index">07</div>
-        <div>
-          <p className="eyebrow">Nocturne Archive</p>
-          <h2>Phone photographs,<br />treated like secret cinema.</h2>
+    <section className="profile-section profile-photography" id="archive">
+      <div className="profile-container">
+        <div className="profile-section-heading">
+          <p className="profile-label">
+            <span>07</span>Photography
+          </p>
+          <div>
+            <h2>Life, through my lens.</h2>
+            <p>
+              Places, quiet moments, and details collected over the years. All
+              photographed on my phone.
+            </p>
+          </div>
         </div>
-        <p className="section-note">
-          A living darkroom for the moments I notice before I know why.
-        </p>
-      </div>
-
-      <div className={`gallery-stage${items.length > 0 ? " has-photos" : ""}`}>
-        {items.length > 0 ? (
-          items.map((item, index) => (
-            <figure
-              className={`gallery-photo photo-${(index % 5) + 1} is-visible`}
-              data-reveal
-              key={item.key}
-            >
-              {/* The browser uses the photograph's real dimensions so no edge is cropped. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.url} alt={item.title} loading="lazy" decoding="async" />
+        <div className="profile-photo-collection">
+          {items.map((item) => (
+            <figure key={item.key}>
+              <div className="profile-gallery-image">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.url}
+                  alt={item.title}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
               <figcaption>
-                <span>N·{String(index + 1).padStart(2, "0")}</span>
-                <p>{item.title}</p>
-                <i>mobile frame</i>
+                <span>{item.title}</span>
+                <span>{new Date(item.uploaded).getFullYear()}</span>
               </figcaption>
             </figure>
-          ))
-        ) : (
-          <>
-            <div className="empty-negative negative-one" data-reveal>
-              <span>01</span><i /><p>light awaiting capture</p>
-            </div>
-            <div className="empty-negative negative-two" data-reveal>
-              <span>02</span><i /><p>an unseen street</p>
-            </div>
-            <div className="empty-negative negative-three" data-reveal>
-              <span>03</span><i /><p>your next quiet frame</p>
-            </div>
-          </>
-        )}
-        <div className="gallery-manifesto" data-reveal>
-          <p>
-            Not content.<br />
-            Not a feed.<br />
-            <em>Evidence of attention.</em>
-          </p>
-          <span>
-            A two-frame preview from a growing private chronology of streets,
-            weather, people, and light.
-          </span>
-          <a className="text-link" href="/gallery">Enter the complete gallery <b>↗</b></a>
+          ))}
+          {items.length === 0 && (
+            <p className="profile-gallery-empty">
+              {loading
+                ? "Opening the photography collection…"
+                : "Explore the full photography collection in the gallery."}
+            </p>
+          )}
         </div>
+        <a className="profile-inline-link" href="/gallery">
+          Visit the complete gallery <span aria-hidden="true">↗</span>
+        </a>
       </div>
     </section>
   );

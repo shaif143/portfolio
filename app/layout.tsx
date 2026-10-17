@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { PhoenixCursor } from "./phoenix-cursor";
+import "./professional.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shaif-portfolio.vercel.app"),
@@ -23,25 +23,32 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Shaif Ahamed Tamim — AI Engineer • Researcher • Builder",
     description:
-      "Production intelligence. Research with consequence. Systems built to ship.",
-    images: [{ url: "/og.png", width: 1734, height: 907, alt: "Shaif Ahamed Tamim portfolio" }],
+      "AI engineering, applied research, and thoughtful software. Explore my experience, projects, and research.",
+    images: [
+      {
+        url: "/profile-social.png",
+        width: 1200,
+        height: 630,
+        alt: "Shaif Ahamed Tamim — AI engineer and researcher",
+      },
+    ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Shaif Ahamed Tamim — AI Engineer • Researcher • Builder",
-    description: "Production intelligence. Research with consequence.",
-    images: ["/og.png"],
+    description: "AI engineering, applied research, and thoughtful software.",
+    images: ["/profile-social.png"],
   },
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050507",
-  colorScheme: "dark",
+  themeColor: "#f7f6f2",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -49,10 +56,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-        <PhoenixCursor />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

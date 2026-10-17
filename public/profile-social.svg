@@ -1,0 +1,88 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1200"
+  height="630"
+  viewBox="0 0 1200 630"
+>
+  <rect width="1200" height="630" fill="#f7f6f2" />
+  <rect x="810" width="390" height="630" fill="#e7edf1" />
+  <path d="M72 92H1128M72 538H1128" stroke="#c6cfd2" />
+  <text
+    x="74"
+    y="66"
+    font-family="Georgia, serif"
+    font-size="32"
+    fill="#263d4c"
+  >
+    ST.
+  </text>
+  <text
+    x="72"
+    y="175"
+    font-family="Arial, sans-serif"
+    font-size="15"
+    letter-spacing="3"
+    fill="#315d87"
+  >
+    AI ENGINEERING · APPLIED RESEARCH
+  </text>
+  <text
+    x="68"
+    y="290"
+    font-family="Georgia, serif"
+    font-size="88"
+    fill="#202e39"
+    letter-spacing="-4"
+  >
+    Shaif Ahamed
+  </text>
+  <text
+    x="68"
+    y="385"
+    font-family="Georgia, serif"
+    font-style="italic"
+    font-size="88"
+    fill="#436f90"
+    letter-spacing="-4"
+  >
+    Tamim.
+  </text>
+  <text
+    x="74"
+    y="451"
+    font-family="Arial, sans-serif"
+    font-size="23"
+    fill="#586773"
+  >
+    Intelligent systems. Thoughtful software.
+  </text>
+  <text
+    x="74"
+    y="581"
+    font-family="Arial, sans-serif"
+    font-size="16"
+    fill="#586773"
+  >
+    shaif-portfolio.vercel.app
+  </text>
+  <text
+    x="893"
+    y="363"
+    font-family="Georgia, serif"
+    font-size="115"
+    fill="#728e9f"
+    letter-spacing="-9"
+  >
+    ST.
+  </text>
+  <text
+    x="893"
+    y="408"
+    font-family="Arial, sans-serif"
+    font-size="13"
+    letter-spacing="3"
+    fill="#586773"
+  >
+    SELECTED WORK
+  </text>
+</svg>
