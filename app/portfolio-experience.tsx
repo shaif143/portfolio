@@ -6,15 +6,22 @@ import { NocturneGallery } from "./nocturne-gallery";
 
 const experiences = [
   {
-    period: "Current role",
-    role: "Research Assistant & Team Lead",
+    period: "Jun 2026 – Aug 2026",
+    role: "AI & App Developer",
+    org: "HyperGlow UK · Leicester, UK",
+    copy: "Built customer-ordering models, an AI image-enhancement app for food photography, and a restaurant self-service ordering product with behavioural upsell. Delivered Next.js, PostgreSQL, React Native and Docker applications on Linux, alongside technical specifications and handover documentation.",
+    tags: ["Applied ML", "Next.js", "PostgreSQL", "React Native", "Docker"],
+  },
+  {
+    period: "Jan 2024 – Aug 2026",
+    role: "Research Assistant & Research Team Lead",
     org: "AIRIL — AI Research & Innovation Lab",
-    copy: "Mentoring three research teams working across healthcare AI, explainability, natural language processing, and deep learning.",
+    copy: "Led and mentored three research teams across healthcare AI, explainability, NLP and deep learning. Built PyTorch and TensorFlow pipelines, reviewed experiments and paper drafts, and contributed to six research papers.",
     tags: ["Explainable AI", "BERT", "CNN", "Research mentorship"],
   },
   {
-    period: "Previous experience",
-    role: "AI/ML Researcher & Software Engineer",
+    period: "Aug 2023 – Dec 2023",
+    role: "AI/ML Researcher & Software Engineer (Intern)",
     org: "PAP International Ltd.",
     copy: "Built production AI pipelines, document intelligence, data ingestion, REST APIs, and cost-aware large language model architecture.",
     tags: ["LangChain", "LLM architecture", "NLP", "REST APIs"],
@@ -37,39 +44,45 @@ const experiences = [
 
 const publications = [
   {
-    status: "Published",
-    title: "Advancing Monkeypox Diagnosis",
+    status: "Research paper",
+    title:
+      "Advancing Monkeypox Diagnosis: A Novel Approach Using Custom Neural Networks",
     detail: "A novel approach using custom neural networks.",
     field: "Diagnostic AI",
   },
   {
-    status: "Published",
-    title: "DeepResVit",
+    status: "Research paper",
+    title:
+      "DeepResVit: A Hybrid Deep Learning Approach for Ovarian Cancer Classification with XAI",
     detail:
       "Hybrid deep learning for ovarian cancer classification with explainable AI.",
     field: "Deep learning · XAI",
   },
   {
-    status: "Submitted",
-    title: "Explainable Human Activity Recognition",
+    status: "Research paper",
+    title:
+      "An Explainable Hybrid CNN–ANN Model for Smartphone-Based Human Activity Recognition in Healthcare Analytics",
     detail: "A hybrid CNN–ANN model for smartphone-based healthcare analytics.",
     field: "Healthcare analytics",
   },
   {
-    status: "In progress",
-    title: "AeroLung AI",
+    status: "Research paper",
+    title:
+      "AeroLung AI: An Explainable Machine Learning Framework for Lung Cancer Prediction in Smart Healthcare Systems",
     detail: "Explainable machine learning for lung cancer prediction.",
     field: "Machine learning",
   },
   {
-    status: "In progress",
-    title: "Interpretable HAR",
+    status: "Research paper",
+    title:
+      "Interpretable Machine Learning Techniques for Human Activity Recognition using Transfer Learning",
     detail: "Transfer learning techniques for human activity recognition.",
     field: "Transfer learning",
   },
   {
-    status: "In progress",
-    title: "Liver Disease Diagnosis",
+    status: "Research paper",
+    title:
+      "Improving Liver Disease Diagnosis through Ensemble Machine Learning Techniques",
     detail:
       "Ensemble machine learning techniques for clinical decision support.",
     field: "Clinical decision support",
@@ -179,7 +192,7 @@ export function PortfolioExperience() {
             <div className="profile-hero-copy">
               <p className="profile-label">
                 <span className="profile-status-dot" />
-                AI engineering · Research · Software
+                Agentic AI · Computer vision · AWS
               </p>
               <h1 id="profile-title">
                 Shaif Ahamed
@@ -192,9 +205,9 @@ export function PortfolioExperience() {
                 with a purpose.
               </p>
               <p className="profile-hero-description">
-                AI engineer and researcher connecting applied machine learning,
-                thoughtful software, and healthcare research. Based in Dhaka,
-                Bangladesh.
+                AI engineer and researcher with around three years of hands-on
+                experience. Studying Computer Vision, Robotics and Machine
+                Learning at the University of Surrey, based in Guildford, UK.
               </p>
               <div className="profile-actions">
                 <a
@@ -213,11 +226,15 @@ export function PortfolioExperience() {
                 </a>
               </div>
               <div className="profile-hero-current">
-                <span>Currently at</span>
-                <strong>AIRIL</strong>
+                <span>Currently studying at</span>
+                <strong>University of Surrey</strong>
                 <span className="profile-current-divider" />
-                <span>Research Assistant & Team Lead</span>
+                <span>MSc · Sep 2026 – Sep 2027 (expected)</span>
               </div>
+              <p className="profile-availability-note">
+                Open to part-time & remote AI/ML roles · Full-time from
+                September 2027 · Open to relocating
+              </p>
             </div>
             <div className="profile-portrait-panel">
               <div className="profile-portrait-label">
@@ -269,15 +286,17 @@ export function PortfolioExperience() {
                   An engineer’s mindset.
                 </h3>
                 <p>
-                  My work sits where AI research meets software people can use.
-                  I build document intelligence and AI pipelines, explore
-                  explainable models for healthcare, and help research teams
-                  turn questions into structured work.
+                  I take AI systems from research to working software, combining
+                  a PyTorch-first background with full-stack delivery. My work
+                  spans document intelligence, healthcare models, computer
+                  vision and multi-agent systems built with LangGraph, n8n and
+                  open-weight models.
                 </p>
                 <p>
-                  At AIRIL, I mentor three teams across healthcare AI, NLP, and
-                  deep learning. Previously, at PAP International Ltd., I worked
-                  on production AI systems, APIs, and LLM architecture.
+                  I previously mentored three research teams at AIRIL and built
+                  AI-powered applications at HyperGlow UK. I’m now completing an
+                  MSc in Computer Vision, Robotics and Machine Learning at
+                  Surrey, following my Advanced PG Certificate from IIT Roorkee.
                 </p>
                 <a
                   className="profile-inline-link"
@@ -290,9 +309,12 @@ export function PortfolioExperience() {
               </div>
               <dl className="profile-facts">
                 {[
-                  ["Based in", "Dhaka, Bangladesh"],
-                  ["Current focus", "Applied AI & healthcare research"],
-                  ["Languages", "Bengali, English & Hindi"],
+                  ["Based in", "Guildford, Surrey, UK"],
+                  ["Current focus", "Agentic AI, computer vision & robotics"],
+                  [
+                    "Languages",
+                    "Bangla (native), English (proficient), Hindi (conversational)",
+                  ],
                   ["Approach", "Clarity, usefulness & collaboration"],
                 ].map(([label, value]) => (
                   <div key={label}>
@@ -307,13 +329,18 @@ export function PortfolioExperience() {
               <div>
                 {[
                   "Agentic AI",
+                  "PyTorch",
                   "RAG systems",
                   "LangGraph",
+                  "n8n",
+                  "Hugging Face",
                   "LLM architecture",
                   "Deep learning",
                   "Computer vision",
                   "AWS",
                   "Explainable AI",
+                  "Docker & MLOps",
+                  "ROS 2 (learning)",
                 ].map((skill) => (
                   <span key={skill}>{skill}</span>
                 ))}
@@ -363,8 +390,48 @@ export function PortfolioExperience() {
               number="03"
               label="Selected projects"
               title="Ideas put into practice."
-              description="Two approaches to the same question: how can clinical reports become easier to understand?"
+              description="Clinical agents, document intelligence, and practical software. Explore the live systems and the projects I’m developing next."
             />
+            <article className="profile-mediroute-card">
+              <div>
+                <p className="profile-label">In development · MediRoute AI</p>
+                <h3>
+                  The right clinical context,
+                  <br />
+                  routed to the right agent.
+                </h3>
+                <p>
+                  A router identifies the clinical domain from prescriptions,
+                  lab reports and scans, then hands off to a specialist agent
+                  with safety gates and clinician review. Uses open-weight
+                  Hugging Face models and OKF, with LangGraph and n8n;
+                  architected for AWS deployment.
+                </p>
+                <div className="profile-tags">
+                  <span>LangGraph + n8n</span>
+                  <span>Open-weight models</span>
+                  <span>OKF</span>
+                  <span>AWS architecture</span>
+                </div>
+              </div>
+              <div
+                className="profile-route-visual"
+                aria-label="Medical report to router to specialist to clinician review"
+              >
+                <span>Medical report</span>
+                <i>↓</i>
+                <strong>Router agent</strong>
+                <i>↓</i>
+                <div>
+                  <span>Cardio</span>
+                  <span>Endo</span>
+                  <span>Renal</span>
+                  <span>Respiratory</span>
+                </div>
+                <i>↓</i>
+                <span>Safety gate & clinician review</span>
+              </div>
+            </article>
             <div className="profile-project-grid">
               <article className="profile-project-card">
                 <div
@@ -439,9 +506,10 @@ export function PortfolioExperience() {
                   </div>
                   <h3>ClinicalOKF</h3>
                   <p>
-                    A clinical report assistant exploring structured knowledge,
-                    clinical ontology, visible safety rules, source trails, and
-                    human review as an alternative to vector retrieval.
+                    A governed OKF v0.2 clinical ontology with 12 concepts and
+                    17 sources. A privacy-aware router selects the local engine
+                    or Gemini Flash, with safety gates, audit trails and human
+                    review.
                   </p>
                   <div className="profile-tags">
                     <span>Open Knowledge Format</span>
@@ -458,6 +526,56 @@ export function PortfolioExperience() {
                   </a>
                 </div>
               </article>
+            </div>
+            <div className="profile-additional-projects">
+              {[
+                [
+                  "Client product · Deployed",
+                  "HyperGlow Ordering App",
+                  "Restaurant self-service ordering with behaviour-driven upsell, plus AI food-photo enhancement. Next.js, React Native, PostgreSQL and Docker on Linux.",
+                ],
+                [
+                  "Bangla + English · GitHub",
+                  "Multilingual RAG System",
+                  "Textbook question answering with PyMuPDF extraction, sentence-based chunking, MiniLM embeddings, FAISS retrieval and a local LLM.",
+                ],
+                [
+                  "Computer vision",
+                  "Factory Instrument Detection",
+                  "YOLO and OpenCV detect instruments carried by factory staff for an access-control workflow.",
+                ],
+                [
+                  "Deep learning",
+                  "Human Activity Recognition",
+                  "CNN and LSTM models for smartphone sensor time-series.",
+                ],
+                [
+                  "Machine learning",
+                  "Term Deposit Prediction",
+                  "A Bayesian-tuned classifier for bank term-deposit sign-ups.",
+                ],
+                [
+                  "Healthcare ML",
+                  "Heart Disease Prediction",
+                  "Clinical-feature classification with exploratory analysis and model comparison.",
+                ],
+                [
+                  "Full-stack software",
+                  "Emergency Helpline System",
+                  "A university project for police and fire service coordination using NestJS, Next.js and REST APIs.",
+                ],
+                [
+                  "University project",
+                  "Dhaka Guide",
+                  "A console information system for places and transport in Dhaka.",
+                ],
+              ].map(([label, title, copy]) => (
+                <article key={title}>
+                  <span>{label}</span>
+                  <h3>{title}</h3>
+                  <p>{copy}</p>
+                </article>
+              ))}
             </div>
             <p className="profile-project-note">
               Research and engineering projects for explaining information.
@@ -482,6 +600,14 @@ export function PortfolioExperience() {
               title="Making AI more understandable."
               description="Research interests in explainability, diagnostic AI, and the application of deep learning to healthcare."
             />
+            <a
+              className="profile-inline-link profile-scholar-link"
+              href="https://scholar.google.com/citations?user=_rSz86QAAAAJ&hl=en"
+              target="_blank"
+              rel="noreferrer"
+            >
+              View Google Scholar <Arrow />
+            </a>
             <div className="profile-research-list">
               {publications.map((publication, index) => (
                 <article className="profile-paper" key={publication.title}>
@@ -511,6 +637,29 @@ export function PortfolioExperience() {
               label="Education & learning"
               title="A foundation to keep building on."
             />
+            <article className="profile-masters-card">
+              <div>
+                <span className="profile-label">
+                  Current study · University of Surrey
+                </span>
+                <h3>
+                  MSc in Computer Vision,
+                  <br />
+                  Robotics and Machine Learning
+                </h3>
+                <p>
+                  Guildford, UK · September 2026 – September 2027 (expected)
+                </p>
+              </div>
+              <div>
+                <span className="profile-current-badge">In progress</span>
+                <p>
+                  Building on applied AI and healthcare research, with a focus
+                  on computer vision, robotics and machine learning. Currently
+                  learning ROS 2.
+                </p>
+              </div>
+            </article>
             <div className="profile-education-grid">
               <article className="profile-certificate">
                 <span className="profile-label">Professional development</span>
@@ -520,12 +669,13 @@ export function PortfolioExperience() {
                   on Cloud & AIOps
                 </h3>
                 <p className="profile-certificate-school">
-                  Futurense × IIT Roorkee
+                  Continuing Education Centre, IIT Roorkee · Futurense
+                  Technologies
                 </p>
                 <p>
-                  Completed the Advanced PG Certificate pathway, extending my
-                  work across machine learning, cloud, generative AI, agents,
-                  and AIOps.
+                  September 2025 – June 2026 · Completed the Advanced PG
+                  Certificate pathway, extending my work across machine
+                  learning, cloud, generative AI, agents, and AIOps.
                 </p>
                 <div className="profile-tags">
                   {[
@@ -679,9 +829,9 @@ export function PortfolioExperience() {
                 with a conversation.
               </h2>
               <p>
-                I’m interested in opportunities across AI engineering, applied
-                research, and intelligent software. If that connects with your
-                team’s work, I’d like to hear from you.
+                I’m available for part-time and remote AI/ML roles alongside my
+                MSc, and full-time opportunities from September 2027. Based in
+                Guildford, UK, and open to relocating.
               </p>
               <a
                 className="profile-button profile-button-primary"
@@ -691,6 +841,20 @@ export function PortfolioExperience() {
               </a>
             </div>
             <div className="profile-contact-details">
+              <a
+                href="https://www.linkedin.com/in/shaif111/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>LinkedIn</span>
+                <strong>linkedin.com/in/shaif111</strong>
+                <Arrow />
+              </a>
+              <a href="tel:+447466871988">
+                <span>Phone</span>
+                <strong>+44 7466 871988</strong>
+                <Arrow />
+              </a>
               <a href="mailto:tamim.shaifahamed@icloud.com">
                 <span>Email</span>
                 <strong>tamim.shaifahamed@icloud.com</strong>

@@ -31,7 +31,9 @@ export function GalleryExperience() {
       const nextItems = Array.isArray(data.items) ? data.items : [];
       setItems(nextItems);
       setVisibleCount((current) =>
-        resetVisible ? Math.min(2, nextItems.length) : Math.min(Math.max(current, 2), nextItems.length),
+        resetVisible
+          ? Math.min(2, nextItems.length)
+          : Math.min(Math.max(current, 2), nextItems.length),
       );
     } catch {
       setLoadError("The gallery is resting. Please return in a moment.");
@@ -75,7 +77,9 @@ export function GalleryExperience() {
 
       <header className="museum-nav">
         <a className="museum-mark" href="/" aria-label="Return to portfolio">
-          <span>S</span><i /><span>AT</span>
+          <span>S</span>
+          <i />
+          <span>AT</span>
         </a>
         <p>Private observations · public exhibition</p>
         <nav aria-label="Gallery navigation">
@@ -87,9 +91,13 @@ export function GalleryExperience() {
 
       <section className="museum-hero" id="top">
         <div className="museum-hero-orbit" aria-hidden="true">
-          <i /><i /><i />
+          <i />
+          <i />
+          <i />
         </div>
-        <p className="museum-kicker">Shaif Ahamed Tamim · Photographic archive</p>
+        <p className="museum-kicker">
+          Shaif Ahamed Tamim · Photographic archive
+        </p>
         <h1>
           The Nocturne
           <span>Gallery</span>
@@ -103,11 +111,17 @@ export function GalleryExperience() {
             <span>{String(items.length).padStart(2, "0")}</span>
             <small>works in collection</small>
           </div>
-          <a href="#collection">Enter exhibition <b>↓</b></a>
+          <a href="#collection">
+            Enter exhibition <b>↓</b>
+          </a>
         </div>
       </section>
 
-      <section className="museum-collection" id="collection" aria-label="Photography collection">
+      <section
+        className="museum-collection"
+        id="collection"
+        aria-label="Photography collection"
+      >
         {loading && rooms.length === 0 ? (
           <GalleryRoomSkeleton />
         ) : loadError ? (
@@ -122,7 +136,8 @@ export function GalleryExperience() {
           rooms.map((room, roomIndex) => (
             <article className="museum-room" key={`room-${roomIndex}`}>
               <div className="museum-ceiling" aria-hidden="true">
-                <i /><i />
+                <i />
+                <i />
               </div>
               <div className="museum-room-index" aria-hidden="true">
                 Room {String(roomIndex + 1).padStart(2, "0")}
@@ -148,11 +163,14 @@ export function GalleryExperience() {
                         </div>
                       </div>
                       <figcaption>
-                        <span>NT·{String(absoluteIndex + 1).padStart(3, "0")}</span>
+                        <span>
+                          NT·{String(absoluteIndex + 1).padStart(3, "0")}
+                        </span>
                         <div>
                           <p>{item.title}</p>
                           <small>
-                            Digital photograph · {new Date(item.uploaded).getFullYear()}
+                            Digital photograph ·{" "}
+                            {new Date(item.uploaded).getFullYear()}
                           </small>
                         </div>
                       </figcaption>
@@ -160,7 +178,10 @@ export function GalleryExperience() {
                   );
                 })}
                 {room.length === 1 && (
-                  <div className="museum-awaiting" aria-label="Space reserved for the next photograph">
+                  <div
+                    className="museum-awaiting"
+                    aria-label="Space reserved for the next photograph"
+                  >
                     <span>Next acquisition</span>
                     <i />
                     <p>A wall waiting for another moment.</p>
@@ -195,7 +216,9 @@ export function GalleryExperience() {
               <span>Approaching the next room</span>
             </>
           ) : items.length > 0 ? (
-            <span>End of the current exhibition · the archive keeps growing</span>
+            <span>
+              End of the current exhibition · the archive keeps growing
+            </span>
           ) : null}
         </div>
       </section>
@@ -203,23 +226,35 @@ export function GalleryExperience() {
       <section className="museum-atelier" id="atelier">
         <div className="museum-atelier-copy">
           <p className="museum-kicker">Owner atelier · private access</p>
-          <h2>Hang new work<br />on the wall.</h2>
+          <h2>
+            Hang new work
+            <br />
+            on the wall.
+          </h2>
           <p>
             Select many photographs at once. HEIC and HEIF files are converted
             locally to high-quality JPG or lossless PNG before upload; the
             originals never enter cloud storage.
           </p>
-          <a href="#collection">Return to exhibition <span>↑</span></a>
+          <a href="#collection">
+            Return to exhibition <span>↑</span>
+          </a>
         </div>
         <div className="museum-uploader">
-          <StudioUploader galleryOnly onPublished={() => void loadGallery(false)} />
+          <StudioUploader
+            galleryOnly
+            onPublished={() => void loadGallery(false)}
+          />
         </div>
       </section>
 
       <footer className="museum-footer">
         <a href="/">Shaif Ahamed Tamim</a>
-        <span>The Nocturne Gallery · Dhaka</span>
-        <a href="#top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+        <span>The Nocturne Gallery · Photographic archive</span>
+        <a
+          href="#top"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
           First room ↑
         </a>
       </footer>
@@ -229,7 +264,10 @@ export function GalleryExperience() {
 
 function GalleryRoomSkeleton() {
   return (
-    <article className="museum-room museum-room-loading" aria-label="Loading gallery">
+    <article
+      className="museum-room museum-room-loading"
+      aria-label="Loading gallery"
+    >
       <div className="museum-wall">
         <div className="museum-loading-frame" />
         <div className="museum-loading-frame" />

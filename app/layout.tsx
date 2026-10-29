@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./professional.css";
+import "./material.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shaif-portfolio.vercel.app"),
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s — Shaif Ahamed Tamim",
   },
   description:
-    "Applied AI engineer, researcher, and builder creating production-grade intelligent systems from Dhaka.",
+    "AI engineer and researcher in Guildford, UK. MSc in Computer Vision, Robotics and Machine Learning at the University of Surrey. Explore agentic AI, healthcare research and software projects.",
   keywords: [
     "Shaif Ahamed Tamim",
     "AI Engineer",
@@ -17,7 +18,8 @@ export const metadata: Metadata = {
     "AI Researcher",
     "RAG",
     "LangGraph",
-    "Dhaka",
+    "Guildford",
+    "University of Surrey",
   ],
   authors: [{ name: "Shaif Ahamed Tamim", url: "https://github.com/shaif143" }],
   openGraph: {

@@ -8,10 +8,16 @@ export async function GET(request: Request) {
     // `list` automatically uses the deployment's short-lived Vercel OIDC token.
     const result = await list({
       prefix: "resume/shaif-ahamed-tamim.pdf",
-      limit: 1,
+      limit: 100,
     });
-    if (result.blobs[0]) {
-      return NextResponse.redirect(result.blobs[0].url);
+    const current =
+      result.blobs.find(
+        (blob) => blob.pathname === "resume/shaif-ahamed-tamim.pdf",
+      ) ?? result.blobs[0];
+    if (current) {
+      return NextResponse.redirect(current.url, {
+        headers: { "Cache-Control": "no-store" },
+      });
     }
   } catch (error) {
     // Keep the bundled CV available if Blob is ever temporarily unreachable.
