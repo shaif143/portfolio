@@ -655,7 +655,7 @@ body {
 }
 .profile-paper {
   display: grid;
-  grid-template-columns: 50px 1fr 110px;
+  grid-template-columns: 50px 1fr;
   gap: 20px;
   padding-block: 27px;
   align-items: start;
@@ -681,21 +681,6 @@ body {
   color: #666779;
   font-size: 13px;
   margin-bottom: 0;
-}
-.profile-paper-status {
-  justify-self: end;
-  font-size: 9px;
-  border: 1px solid #c9c7d5;
-  border-radius: 20px;
-  padding: 4px 10px;
-  margin-top: 6px;
-  color: #6e6780;
-  white-space: nowrap;
-}
-.profile-paper-status.is-published {
-  background: #e1e9e3;
-  border-color: #c0d0c2;
-  color: #3e674b;
 }
 .profile-education-grid {
   display: grid;
@@ -1410,11 +1395,6 @@ body {
   }
   .profile-paper h3 {
     font-size: 18px;
-  }
-  .profile-paper-status {
-    grid-column: 2;
-    justify-self: start;
-    margin-top: 3px;
   }
   .profile-certificate {
     padding: 25px;

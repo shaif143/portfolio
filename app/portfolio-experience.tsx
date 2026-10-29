@@ -44,14 +44,12 @@ const experiences = [
 
 const publications = [
   {
-    status: "Research paper",
     title:
       "Advancing Monkeypox Diagnosis: A Novel Approach Using Custom Neural Networks",
     detail: "A novel approach using custom neural networks.",
     field: "Diagnostic AI",
   },
   {
-    status: "Research paper",
     title:
       "DeepResVit: A Hybrid Deep Learning Approach for Ovarian Cancer Classification with XAI",
     detail:
@@ -59,28 +57,24 @@ const publications = [
     field: "Deep learning · XAI",
   },
   {
-    status: "Research paper",
     title:
       "An Explainable Hybrid CNN–ANN Model for Smartphone-Based Human Activity Recognition in Healthcare Analytics",
     detail: "A hybrid CNN–ANN model for smartphone-based healthcare analytics.",
     field: "Healthcare analytics",
   },
   {
-    status: "Research paper",
     title:
       "AeroLung AI: An Explainable Machine Learning Framework for Lung Cancer Prediction in Smart Healthcare Systems",
     detail: "Explainable machine learning for lung cancer prediction.",
     field: "Machine learning",
   },
   {
-    status: "Research paper",
     title:
       "Interpretable Machine Learning Techniques for Human Activity Recognition using Transfer Learning",
     detail: "Transfer learning techniques for human activity recognition.",
     field: "Transfer learning",
   },
   {
-    status: "Research paper",
     title:
       "Improving Liver Disease Diagnosis through Ensemble Machine Learning Techniques",
     detail:
@@ -619,11 +613,6 @@ export function PortfolioExperience() {
                     <h3>{publication.title}</h3>
                     <p>{publication.detail}</p>
                   </div>
-                  <span
-                    className={`profile-paper-status ${publication.status === "Published" ? "is-published" : ""}`}
-                  >
-                    {publication.status}
-                  </span>
                 </article>
               ))}
             </div>
