@@ -7,6 +7,11 @@ based in Guildford, Surrey, United Kingdom.
 
 **[shaif-portfolio.vercel.app](https://shaif-portfolio.vercel.app)**
 
+## Project documentation
+
+The complete repository audit, project register, validation notes, and cleanup
+candidates are available in [PROJECT_DOCUMENTATION.html](./PROJECT_DOCUMENTATION.html).
+
 The experience includes:
 
 - a glass-and-black-chrome 3D landing scene;
