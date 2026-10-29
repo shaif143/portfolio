@@ -1,7 +1,7 @@
 # Shaif Ahamed Tamim — Portfolio
 
 A cinematic, motion-rich portfolio for an AI engineer, researcher, and builder
-based in Dhaka, Bangladesh.
+based in Guildford, Surrey, United Kingdom.
 
 ## Live portfolio
 

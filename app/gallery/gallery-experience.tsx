@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { StudioUploader } from "../studio/studio-uploader";
 
 type GalleryItem = {
@@ -9,6 +10,16 @@ type GalleryItem = {
   title: string;
   uploaded: string;
 };
+
+async function fetchGalleryItems(): Promise<GalleryItem[]> {
+  const response = await fetch(`/api/portfolio/gallery?t=${Date.now()}`, {
+    cache: "no-store",
+  });
+  if (!response.ok) throw new Error("The collection could not be opened.");
+
+  const data = (await response.json()) as { items?: GalleryItem[] };
+  return Array.isArray(data.items) ? data.items : [];
+}
 
 export function GalleryExperience() {
   const [items, setItems] = useState<GalleryItem[]>([]);
@@ -22,13 +33,7 @@ export function GalleryExperience() {
     setLoadError("");
 
     try {
-      const response = await fetch(`/api/portfolio/gallery?t=${Date.now()}`, {
-        cache: "no-store",
-      });
-      if (!response.ok) throw new Error("The collection could not be opened.");
-
-      const data = (await response.json()) as { items?: GalleryItem[] };
-      const nextItems = Array.isArray(data.items) ? data.items : [];
+      const nextItems = await fetchGalleryItems();
       setItems(nextItems);
       setVisibleCount((current) =>
         resetVisible
@@ -43,8 +48,28 @@ export function GalleryExperience() {
   }, []);
 
   useEffect(() => {
-    void loadGallery(true);
-  }, [loadGallery]);
+    let cancelled = false;
+
+    async function hydrateGallery() {
+      try {
+        const nextItems = await fetchGalleryItems();
+        if (cancelled) return;
+        setItems(nextItems);
+        setVisibleCount(Math.min(2, nextItems.length));
+      } catch {
+        if (!cancelled) {
+          setLoadError("The gallery is resting. Please return in a moment.");
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    void hydrateGallery();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -76,14 +101,14 @@ export function GalleryExperience() {
       <div className="noise" aria-hidden="true" />
 
       <header className="museum-nav">
-        <a className="museum-mark" href="/" aria-label="Return to portfolio">
+        <Link className="museum-mark" href="/" aria-label="Return to portfolio">
           <span>S</span>
           <i />
           <span>AT</span>
-        </a>
+        </Link>
         <p>Private observations · public exhibition</p>
         <nav aria-label="Gallery navigation">
-          <a href="/">Portfolio</a>
+          <Link href="/">Portfolio</Link>
           <a href="#collection">Collection</a>
           <a href="#atelier">Upload</a>
         </nav>
@@ -249,7 +274,7 @@ export function GalleryExperience() {
       </section>
 
       <footer className="museum-footer">
-        <a href="/">Shaif Ahamed Tamim</a>
+        <Link href="/">Shaif Ahamed Tamim</Link>
         <span>The Nocturne Gallery · Photographic archive</span>
         <a
           href="#top"

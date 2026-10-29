@@ -2,6 +2,7 @@
 
 import { uploadPresigned } from "@vercel/blob/client";
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 
 type StudioUploaderProps = {
   galleryOnly?: boolean;
@@ -214,7 +215,7 @@ export function StudioUploader({
       </button>
       <p className="studio-status" role="status">{status}</p>
       {!galleryOnly && (
-        <a className="text-link" href="/">Return to portfolio <span>↙</span></a>
+        <Link className="text-link" href="/">Return to portfolio <span>↙</span></Link>
       )}
     </form>
   );
