@@ -19,6 +19,19 @@
     "react": "19.2.6",
     "react-dom": "19.2.6"
   },
+  "overrides": {
+    "@babel/core": "^7.29.7",
+    "@vercel/cli-config": "^0.3.5",
+    "@vercel/oidc": "^4.0.5",
+    "baseline-browser-mapping": "^2.11.34",
+    "browserslist": "^4.29.5",
+    "brace-expansion": "^5.0.12",
+    "js-yaml": "^5.5.0",
+    "minimatch": "^11.0.3",
+    "source-map-js": "^1.2.2",
+    "undici": "^6.29.1",
+    "zod": "^4.6.7"
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
