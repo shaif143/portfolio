@@ -83,6 +83,24 @@ const publications = [
   },
 ];
 
+const heroSlides = [
+  {
+    eyebrow: "AI ENGINEER · RESEARCHER · BUILDER",
+    title: "Complex signals deserve clear direction.",
+    copy: "I build intelligent systems that make difficult ideas easier to see, trust, and use.",
+  },
+  {
+    eyebrow: "A HUMAN POINT OF VIEW",
+    title: "Research, translated into reliable tools.",
+    copy: "I work across computer vision, agentic AI, and clinical intelligence—turning research into tools with a human point of view and designing traceable systems that make every signal, decision, and outcome easier to understand.",
+  },
+  {
+    eyebrow: "SHAIF AHAMED TAMIM",
+    title: "From evidence to impact.",
+    copy: "Explore the work, experiments, and systems I am building for a more understandable future.",
+  },
+];
+
 function SectionHeading({
   number,
   label,
@@ -114,6 +132,8 @@ function Arrow() {
 
 export function PortfolioExperience() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [heroSlide, setHeroSlide] = useState(0);
+  const [heroPaused, setHeroPaused] = useState(false);
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setMenuOpen(false);
@@ -121,6 +141,14 @@ export function PortfolioExperience() {
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, []);
+
+  useEffect(() => {
+    if (heroPaused) return;
+    const timer = window.setInterval(() => {
+      setHeroSlide((current) => (current + 1) % heroSlides.length);
+    }, 6500);
+    return () => window.clearInterval(timer);
+  }, [heroPaused]);
 
   return (
     <div className="profile-site">
@@ -177,6 +205,64 @@ export function PortfolioExperience() {
       </header>
 
       <main id="main-content">
+        <section
+          className="profile-hook"
+          aria-label="Introduction"
+          onMouseEnter={() => setHeroPaused(true)}
+          onMouseLeave={() => setHeroPaused(false)}
+          onFocusCapture={() => setHeroPaused(true)}
+          onBlurCapture={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              setHeroPaused(false);
+            }
+          }}
+        >
+          <Image
+            className="profile-hook-image"
+            src="/assets/tech-inspired-hero.png"
+            alt="Abstract technology landscape with connected intelligence nodes"
+            fill
+            priority
+            quality={95}
+            sizes="100vw"
+          />
+          <div className="profile-hook-shade" aria-hidden="true" />
+          <div className="profile-container profile-hook-inner">
+            <div
+              className="profile-hook-content"
+              aria-live="polite"
+              key={heroSlide}
+            >
+              <p className="profile-hook-eyebrow">
+                <span className="profile-hook-pulse" />
+                {heroSlides[heroSlide].eyebrow}
+              </p>
+              <h1>{heroSlides[heroSlide].title}</h1>
+              <p>{heroSlides[heroSlide].copy}</p>
+              <a className="profile-hook-cta" href="#about">
+                Begin with the work <span aria-hidden="true">↓</span>
+              </a>
+            </div>
+            <div className="profile-hook-controls" aria-label="Introduction slides">
+              <span className="profile-hook-count">
+                0{heroSlide + 1} <i /> 0{heroSlides.length}
+              </span>
+              <div className="profile-hook-dots">
+                {heroSlides.map((slide, index) => (
+                  <button
+                    key={slide.eyebrow}
+                    type="button"
+                    className={index === heroSlide ? "is-active" : ""}
+                    aria-label={`Show introduction slide ${index + 1}`}
+                    aria-pressed={index === heroSlide}
+                    onClick={() => setHeroSlide(index)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section
           className="profile-hero"
           id="top"
